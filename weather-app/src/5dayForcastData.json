@@ -1,0 +1,190 @@
+{
+    "Headline": {
+      "EffectiveDate": "2023-12-04T13:00:00-05:00",
+      "EffectiveEpochDate": 1701712800,
+      "Severity": 5,
+      "Text": "Expect showery weather this afternoon through this evening",
+      "Category": "rain",
+      "EndDate": "2023-12-05T01:00:00-05:00",
+      "EndEpochDate": 1701756000,
+      "MobileLink": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?lang=en-us",
+      "Link": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?lang=en-us"
+    },
+    "DailyForecasts": [
+      {
+        "Date": "2023-12-04T07:00:00-05:00",
+        "EpochDate": 1701691200,
+        "Temperature": {
+          "Minimum": {
+            "Value": 69,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 86,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Light"
+        },
+        "Night": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Light"
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=1&lang=en-us",
+        "Link": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=1&lang=en-us"
+      },
+      {
+        "Date": "2023-12-05T07:00:00-05:00",
+        "EpochDate": 1701777600,
+        "Temperature": {
+          "Minimum": {
+            "Value": 69,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 81,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Light"
+        },
+        "Night": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Light"
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=2&lang=en-us",
+        "Link": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=2&lang=en-us"
+      },
+      {
+        "Date": "2023-12-06T07:00:00-05:00",
+        "EpochDate": 1701864000,
+        "Temperature": {
+          "Minimum": {
+            "Value": 70,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 85,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Light"
+        },
+        "Night": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Moderate"
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=3&lang=en-us",
+        "Link": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=3&lang=en-us"
+      },
+      {
+        "Date": "2023-12-07T07:00:00-05:00",
+        "EpochDate": 1701950400,
+        "Temperature": {
+          "Minimum": {
+            "Value": 70,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 84,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Moderate"
+        },
+        "Night": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Moderate"
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=4&lang=en-us",
+        "Link": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=4&lang=en-us"
+      },
+      {
+        "Date": "2023-12-08T07:00:00-05:00",
+        "EpochDate": 1702036800,
+        "Temperature": {
+          "Minimum": {
+            "Value": 70,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 85,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Light"
+        },
+        "Night": {
+          "Icon": 12,
+          "IconPhrase": "Showers",
+          "HasPrecipitation": true,
+          "PrecipitationType": "Rain",
+          "PrecipitationIntensity": "Light"
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=5&lang=en-us",
+        "Link": "http://www.accuweather.com/en/ec/los-angeles/1239134/daily-weather-forecast/1239134?day=5&lang=en-us"
+      }
+    ]
+  }
