@@ -1,7 +1,4 @@
-// ForecastList.tsx
-
-import React, { useState } from 'react';
-import { Accordion, AccordionTab } from 'primereact/accordion';
+import  { useState } from 'react';
 
 
 

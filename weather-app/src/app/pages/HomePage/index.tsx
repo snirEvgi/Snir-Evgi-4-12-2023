@@ -44,8 +44,6 @@ useEffect( ()=>{
 
 },[])
 
-
-  // selector to get search results from Redux store
   const autoCompleteResults = useAppSelector(
     (state) => state.weather.autoCompleteResults,
   )
@@ -73,7 +71,6 @@ useEffect( ()=>{
       // Validate using Zod schema
       searchSchema.parse({ text: searchInput.current?.value })
 
-      // If validation passes, dispatch the searchAutoComplete action
       const response = await dispatch(
         searchAutoComplete(searchInput.current?.value),
       )
@@ -84,18 +81,18 @@ useEffect( ()=>{
       } else {
         toast.current?.show({
           severity: "error",
-          summary: "Autocomplete search failed",
-          detail: "Autocomplete search failed. Please try again.",
+          summary: "Search failed",
+          detail: "Search failed. Please try again.",
         })
-        console.error("Autocomplete search failed:", response.payload)
+        console.error("Search failed:", response.payload)
       }
     } catch (error) {
       toast.current?.show({
         severity: "error",
-        summary: "Autocomplete search failed",
-        detail: "Autocomplete search failed. Please try again.",
+        summary: "Search failed",
+        detail: "Search failed. Please try again.",
       })
-      console.error("Autocomplete search failed:", error)
+      console.error("Search failed:", error)
     } finally {
       setIsLoading(false)
     }
@@ -114,7 +111,7 @@ useEffect( ()=>{
               ref={searchInput}
               type="text"
               className="flex-grow h-12 pr-8 pl-5 rounded-l-lg focus:shadow-outline"
-              placeholder="Search anything..."
+              placeholder="Search Any Place..."
             />
             <div
               className="flex items-center justify-center border-l cursor-pointer px-4 bg-gray-200 rounded-r-lg"
