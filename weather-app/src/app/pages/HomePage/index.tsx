@@ -4,7 +4,7 @@ import { Toast } from "primereact/toast"
 import { z } from "zod"
 import { useAppDispatch, useAppSelector } from "../../hooks"
 import { useNavigate } from "react-router-dom"
-import { searchAutoComplete } from "./weatherSlice"
+import { fetchCurrentForecast, fetchFiveDayForecast, searchAutoComplete } from "./weatherSlice"
 import { fetchTelAvivData } from "./homepageAPI"
 import ForecastList from "../../UI-components/ForecastList"
 import CurrentForecast from "../../UI-components/CurrentForecast"
@@ -18,6 +18,7 @@ const HomePage = () => {
   const [currentTlvForecast, setCurrentTlvForecast] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFetched, setIsFetched] = useState<boolean>(false)
+  const [currentCountryName, setCountryName] = useState<string>("")
   
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -54,9 +55,17 @@ useEffect( ()=>{
     (state) => state.weather.fiveDayForecast,
   )
 
-  const handleSelectCountry = (result:any) => {
+  const handleSelectCountry =async (result:any) => {
 
-
+setCountryName( result.LocalizedName)
+    const response = await dispatch(
+        fetchFiveDayForecast(result?.Key),
+      )
+    const response2 = await dispatch(
+        fetchCurrentForecast(result?.Key),
+      )
+      console.log(currentLocationResults,"currentLocationResults",currentLocationFiveDayResults,"currentLocationFiveDayResults");
+      
   }
   const handleSearch = async () => {
     if (
@@ -127,7 +136,7 @@ useEffect( ()=>{
             <ul className="bg-white divide-y divide-gray-200">
               {autoCompleteResults.map((result) => (
                 <li
-                  onClick={handleSelectCountry}
+                  onClick={ ()=> handleSelectCountry(result)}
                   key={result.Key}
                   className="px-4 py-2 cursor-pointer hover:bg-gray-100"
                 >
@@ -142,13 +151,14 @@ useEffect( ()=>{
 
     {isFetched && (
       <div className="col-span-1">
-        <CurrentForecast currentForecast={currentTlvForecast[0]} />
+        <CurrentForecast header={currentCountryName !== "" ? currentCountryName :"Tel Aviv"}  currentForecast={currentLocationResults?currentLocationResults[0]:currentTlvForecast[0]} />
       </div>
     )}
 
     {isFetched && (
       <div className="col-span-1 md:col-span-2 lg:col-span-3">
-        <ForecastList forecasts={fiveDayTlvForecast} />
+        <ForecastList  forecasts={currentLocationFiveDayResults?currentLocationFiveDayResults:fiveDayTlvForecast}  />
+        {/*  */}
       </div>
     )}
   </div>

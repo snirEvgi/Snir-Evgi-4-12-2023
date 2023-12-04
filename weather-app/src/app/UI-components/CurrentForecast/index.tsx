@@ -3,8 +3,7 @@ interface CurrentForecastProps {
   header?: string
 }
 
-const CurrentForecast = ({ currentForecast,header }: CurrentForecastProps) => {
-  console.log(currentForecast)
+const CurrentForecast = ({currentForecast,header }: CurrentForecastProps) => {
 
   return (
     <div className="p-4 max-w-sm mx-auto">
@@ -14,7 +13,7 @@ const CurrentForecast = ({ currentForecast,header }: CurrentForecastProps) => {
             Current Forecast
           </h3>
           <div className="mt-5">
-            <h2 className="font-medium">{header? header: "Tel-Aviv"}</h2>
+            <h2 className="font-medium">{header}</h2>
             <p className="text-sm text-gray-500">
               <strong>Date:</strong>{" "}
               {new Date(
