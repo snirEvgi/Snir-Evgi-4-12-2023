@@ -108,18 +108,19 @@ setCountryName( result.LocalizedName)
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div 
+    className="container  mx-auto p-4">
   <Toast ref={toast} />
 
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     <div className="col-span-1 md:col-span-2">
       <div className="border border-gray-300 rounded-lg shadow">
-        <div className="flex justify-center items-center p-4">
+        <div className="flex bg-slate-50 rounded-2xl justify-center items-center p-4">
           <div className="flex w-full">
             <input
               ref={searchInput}
               type="text"
-              className="flex-grow h-12 pr-8 pl-5 rounded-l-lg focus:shadow-outline"
+              className="flex-grow h-12 pr-8 pl-5 rounded-l-lg focus:shadow-outline focus:outline-none"
               placeholder="Search Any Place..."
             />
             <div
@@ -156,7 +157,7 @@ setCountryName( result.LocalizedName)
     )}
 
     {isFetched && (
-      <div className="col-span-1 md:col-span-2 lg:col-span-3">
+      <div className="col-span-1 mt-32 md:col-span-2 lg:col-span-3">
         <ForecastList  forecasts={currentLocationFiveDayResults?currentLocationFiveDayResults:fiveDayTlvForecast}  />
         {/*  */}
       </div>

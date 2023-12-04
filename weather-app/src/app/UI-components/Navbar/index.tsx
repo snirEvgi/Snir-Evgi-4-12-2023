@@ -7,7 +7,7 @@ import { IoIosCloudy } from "react-icons/io";const NavBar = () => {
   ]
 
   return (
-    <nav className='flex space-x-6 border-b mb-5 px-5 h-14 items-center'>
+    <nav className='flex space-x-6 z-20 bg-white border-b mb-5 px-5 h-14 items-center'>
       <ul className='flex space-x-6'>
       <Link className=" py-1 scale-150" to="/"><IoIosCloudy  /></Link>
       {links.map(link => 
