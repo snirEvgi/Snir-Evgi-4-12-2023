@@ -18,54 +18,47 @@ const daysOfWeek = [
   'Saturday',
 ];
 const MAX_LIKED = 5;
+let arr:any = []
 
 const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
-  const storedLikedPlaces = JSON.parse(localStorage.getItem("likedPlaces") as any ) || [];
-  const [likedPlaces, setLikedPlaces] = useState<string[]>(storedLikedPlaces);
-  const toast = useRef<Toast | null>(null)
+  const [favoriteList, setFavoriteList] = useState<any[]>(
+    JSON.parse(localStorage.getItem('likedPlaces') as string) || []
+  );
+  const toast = useRef<Toast | null>(null);
 
-  
+  const handleToggleLike = (place: any) => {
+    const placeIdentifier = place.MobileLink;
+    const isLiked = favoriteList.some((p: any) => p.MobileLink === placeIdentifier);
 
-  // useEffect(() => {
-    // if (storedLikedPlaces) {
-
-    // }
-  // }, []);
-
-  // useEffect(() => {
-  // }, [likedPlaces]);
-
-  
-  const handleToggleLike = () => {
-    const placeIdentifier = currentForecast.MobileLink; 
-
-    // Check if the place is already liked
-    if (likedPlaces.some((place:any) => place.MobileLink === placeIdentifier)) {
-      // Remove from liked places if already liked
-      setLikedPlaces((prevLikedPlaces) =>
-        prevLikedPlaces.filter((place:any) => place.MobileLink !== placeIdentifier)
-      );
-
-    localStorage.setItem("likedPlaces", JSON.stringify(likedPlaces));
-
-    } else {
-      // Add to liked places if not liked
-      if (likedPlaces.length < MAX_LIKED) {
-        setLikedPlaces((prevLikedPlaces) => [...prevLikedPlaces, currentForecast]);
-      }else {
-        return toast.current?.show({
-          severity: "error",
-          summary: "You can add until 5 users",
-          detail: "You can add until 5 users. Please Remove one to continue.",
-        })
+    if (!isLiked) {
+      //  if the maximum limit is reached
+      if (favoriteList.length < MAX_LIKED) {
+        // state and local storage
+        const updatedList = [...favoriteList, place];
+        setFavoriteList(updatedList);
+        localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
+      } else {
+        if (toast.current) {
+          toast.current.show({
+            severity: 'warn',
+            summary: 'Maximum Liked Places Reached',
+            detail: `You can only like up to ${MAX_LIKED} places.`,
+          });
+        }
       }
+    } else {
+      // remove of the liked place 
+      const updatedList = favoriteList.filter((p: any) => p.MobileLink !== placeIdentifier);
+      setFavoriteList(updatedList);
+      localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
     }
   };
 
-  const placeIdentifier = currentForecast.MobileLink; 
-  const isLiked = likedPlaces.some((place:any) => place.MobileLink === placeIdentifier);
+  const placeIdentifier = currentForecast.MobileLink;
+  const isLiked = favoriteList.some((p: any) => p.MobileLink === placeIdentifier);
+
   return (
-    <div className="max-w-sm relative flex items-center justify-center">
+    <div className="max-w-sm flex items-center justify-center">
       <Toast ref={toast} />
 
       <div className="bg-white shadow-lg rounded-lg overflow-hidden w-full">
@@ -78,7 +71,7 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
           
               <button
                 className={`text-2xl transition-colors text-red-500`}
-                onClick={handleToggleLike}
+                onClick={()=>handleToggleLike(currentForecast)}
               >
            {isLiked   ?  <FaHeart className={`cursor-pointer text-red-500`} /> : <IoHeartDislike className={`cursor-pointer text-gray-500`} />}
               </button>
