@@ -1,5 +1,10 @@
 import {  Link, useNavigate } from "react-router-dom";
-import { IoIosCloudy } from "react-icons/io";const NavBar = () => {
+import { IoIosCloudy } from "react-icons/io";
+import { useAppSelector } from "../../hooks";
+import classNames from "classnames";
+import ThemeSwitcher from "../themeswitcher";
+const NavBar = () => {
+  const theme = useAppSelector((state) => state.theme.theme) || "light"
 
   const links = [
     { label: 'Home', href: '/' },
@@ -7,14 +12,19 @@ import { IoIosCloudy } from "react-icons/io";const NavBar = () => {
   ]
 
   return (
-    <nav className='flex space-x-6 z-20 bg-white border-b mb-5 px-5 h-14 items-center'>
-      <ul className='flex space-x-6'>
-      <Link className=" py-1 scale-150" to="/"><IoIosCloudy  /></Link>
+    <nav className={classNames({
+      "flex space-x-6 z-20 bg-white px-5 h-20 items-center":true,
+    })}>
+      <ul className='flex space-x-6 mt-3'>
+      <Link className=" py-1 pb-2 scale-150" to="/"><IoIosCloudy size={20} /></Link>
       {links.map(link => 
           <Link 
             key={link.href} 
             className='text-zinc-500 hover:text-zinc-800 transition-colors' 
             to={link.href}>{link.label}</Link>)}
+            <div className="">
+            <ThemeSwitcher/>
+            </div>
       </ul>
     </nav>
   )

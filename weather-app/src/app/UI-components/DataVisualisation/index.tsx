@@ -2,6 +2,8 @@
 import { Bar } from "react-chartjs-2"
 import "chart.js/auto"
 import { useState } from "react"
+import { useAppSelector } from "../../hooks"
+import classNames from "classnames"
 
 const daysOfWeek = [
     "Sunday",
@@ -16,6 +18,7 @@ const DataVisual = (props: { forecasts: Array<any> }) => {
     const [fiveDayForecast, setFiveDayForecast] = useState(
         (props.forecasts as any)?.DailyForecasts,
       )
+  const theme = useAppSelector((state) => state.theme.theme) || "light"
     
 const data = {
     labels: fiveDayForecast.map(
@@ -27,24 +30,38 @@ const data = {
         data: fiveDayForecast.map(
           (forecast: any) => forecast.Temperature.Maximum.Value,
         ),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: `${theme === "dark" ? "purple" : "darkRed"}`,
       },
       {
         label: "Minimum Temperature (°F)",
         data: fiveDayForecast.map(
           (forecast: any) => forecast.Temperature.Minimum.Value,
         ),
-        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        backgroundColor: `${theme === "dark" ? "darkBlue" : "lightGreen"}`,
       },
     ],
   }
 
   const options = {
     scales: {
-      y: {
-        beginAtZero: true,
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: theme === "dark" ?"white" : "", 
+          },
+          ticks: {
+            color: theme === "dark" ?"white" : "", 
+          }
+        },
+        x: {
+          grid: {
+            color: theme === "dark" ?"white" : "", 
+          },
+          ticks: {
+            color: theme === "dark" ?"white" : "", 
+          }
+        }
       },
-    },
     plugins: {
       legend: {
         display: false,
@@ -52,11 +69,15 @@ const data = {
     },
   }
   return (
-<div className="bg-white p-4 max-w-sm">
-    <h2 className="text-2xl font-semibold mb-4">Daily Temperature Visual</h2>
+<div className={classNames({
+    "p-4 shadow-lg rounded-lg max-w-sm":true,
+    "bg-white opacity-70 text-black":theme==="light",
+    "bg-gray-500 opacity-90 text-white": theme === "dark",
+    })}>
+    <h2 className="text-2xl text-black font-semibold mb-4">Daily Temperature Visual</h2>
       <div className="flex gap-6 py-2">
-    <div className="max-w-sm">
-          <Bar data={data} options={options} />
+    <div className="max-w-sm text-white">
+          <Bar data={data}  options={options} />
         </div>
       </div>
       </div>

@@ -10,14 +10,18 @@ import {
   searchAutoComplete,
 } from "./weatherSlice"
 import { fetchTelAvivData } from "./homepageAPI"
+import classnames from "classnames"
+
 import ForecastList from "../../UI-components/ForecastList"
 import CurrentForecast from "../../UI-components/CurrentForecast"
 import DataVisual from "../../UI-components/DataVisualisation"
+import classNames from "classnames"
+import Loader from "../../UI-components/Loader"
 
 const HomePage = () => {
   const searchInput = useRef<HTMLInputElement>(null)
   const toast = useRef<Toast | null>(null)
-  const [countryData, setCountryData] = useState<Array<any>>([])
+  const [isSearchResult, setIsSearchResult] = useState<boolean>(false)
   const [fiveDayTlvForecast, setFiveDayTlvForecast] = useState<Array<any>>([])
   const [currentTlvForecast, setCurrentTlvForecast] = useState<any>({})
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -37,14 +41,17 @@ const HomePage = () => {
         setFiveDayTlvForecast(telAvivData.fiveDayTlvForecast)
         setCurrentTlvForecast(telAvivData.currentTlvForecast)
         setIsFetched(true)
+        setIsSearchResult(true)
       } catch (error) {
         setIsFetched(false)
+        setIsSearchResult(false)
 
         console.error("Data fetch failed:", error)
       }
     }
 
     fetchTlvDataHandler()
+   
   }, [])
 
   const autoCompleteResults = useAppSelector(
@@ -56,17 +63,22 @@ const HomePage = () => {
   const currentLocationFiveDayResults = useAppSelector(
     (state) => state.weather.fiveDayForecast,
   )
+  const theme = useAppSelector((state) => state.theme.theme) || "light"
 
   const handleSelectCountry = async (result: any) => {
-    setCountryName(result.LocalizedName)
-    const response = await dispatch(fetchFiveDayForecast(result?.Key))
-    const response2 = await dispatch(fetchCurrentForecast(result?.Key))
-    console.log(
-      currentLocationResults,
-      "currentLocationResults",
-      currentLocationFiveDayResults,
-      "currentLocationFiveDayResults",
-    )
+
+  try {
+      setCountryName(result.LocalizedName)
+      const response = await dispatch(fetchFiveDayForecast(result?.Key))
+      const response2 = await dispatch(fetchCurrentForecast(result?.Key))
+
+  } catch (error) {
+    console.log(error);
+    
+  }finally{
+    setIsSearchResult(false)
+
+  }
   }
   const handleSearch = async () => {
     if (
@@ -87,6 +99,8 @@ const HomePage = () => {
 
       if (searchAutoComplete.fulfilled.match(response)) {
         // navigate("/homepage")
+      setIsSearchResult(true)
+
       } else {
         toast.current?.show({
           severity: "error",
@@ -101,6 +115,8 @@ const HomePage = () => {
         summary: "Search failed",
         detail: "Search failed. Please try again.",
       })
+      setIsSearchResult(false)
+
       console.error("Search failed:", error)
     } finally {
       setIsLoading(false)
@@ -108,37 +124,71 @@ const HomePage = () => {
   }
 
   return (
-    <div className="container  mx-auto p-4">
+    <div
+      className={classnames({
+        "container mx-auto max-h-screen p-4": true,
+      })}
+    >
       <Toast ref={toast} />
+      {isLoading && <Loader/>}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div
+        className={classnames({
+          "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4": true,
+        })}
+      >
         <div className="col-span-1 md:col-span-2">
-          <div className="border border-gray-300 rounded-lg shadow">
-            <div className="flex bg-slate-50 rounded-2xl justify-center items-center p-4">
+          <div
+            className={classNames({
+              "rounded-2xl shadow": true,
+              " bg-gray-800": theme === "dark",
+              " bg-white": theme === "light",
+            })}
+          >
+            <div className={classNames({
+              "flex  rounded-2xl justify-center items-center p-4":true,
+              "bg-gray-700":theme === "dark",
+              "bg-white":theme === "light"
+          })}>
               <div className="flex w-full">
                 <input
                   ref={searchInput}
                   type="text"
-                  className="flex-grow h-12 pr-8 pl-5 rounded-l-lg focus:shadow-outline focus:outline-none"
+                  className={classNames({
+                    "flex-grow h-12 pr-8 pl-5 rounded-l-lg focus:shadow-outline focus:outline-none bg-transparent ":
+                      true,
+                    " bg-gray-800 text-white": theme === "dark",
+                    " bg-white text-black": theme === "light",
+                  })}
                   placeholder="Search Any Place..."
                 />
                 <div
-                  className="flex items-center justify-center border-l cursor-pointer px-4 bg-gray-200 rounded-r-lg"
+                  className="flex items-center justify-center border-l cursor-pointer px-4 bg-gray-200 dark:bg-gray-600 rounded-r-lg"
                   onClick={handleSearch}
                 >
-                  <IoSearch className="text-gray-600" />
+                  <IoSearch className="text-gray-600 dark:text-white" />
                 </div>
               </div>
             </div>
 
-            {autoCompleteResults && (
-              <div className="max-h-32 overflow-auto">
-                <ul className="bg-white divide-y divide-gray-200">
-                  {autoCompleteResults.map((result) => (
+            {isSearchResult && (
+              <div className="max-h-40 overflow-auto">
+                <ul
+                  className={classNames({
+                    "  divide-y rounded-xl": true,
+                    "bg-gray-800 divide-gray-700 text-white": theme === "dark",
+                    "bg-white divide-gray-200 text-black": theme === "light",
+                  })}
+                >
+                  {autoCompleteResults?.map((result) => (
                     <li
                       onClick={() => handleSelectCountry(result)}
                       key={result.Key}
-                      className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                      className={classNames({
+                        "px-4 py-2 cursor-pointer  ": true,
+                        "hover:bg-gray-900 text-white": theme === "black",
+                        "hover:bg-gray-100 text-black": theme === "light",
+                      })}
                     >
                       {result.LocalizedName}
                     </li>
@@ -150,7 +200,7 @@ const HomePage = () => {
         </div>
 
         {isFetched && (
-          <div className="col-span-1">
+          <div className="h-fit col-span-1 ml-2">
             <CurrentForecast
               header={
                 currentCountryName !== "" ? currentCountryName : "Tel Aviv"
@@ -162,14 +212,18 @@ const HomePage = () => {
               }
             />
             <br />
-            <DataVisual forecasts={currentLocationFiveDayResults
+            <DataVisual
+              forecasts={
+                currentLocationFiveDayResults
                   ? currentLocationFiveDayResults
-                  : fiveDayTlvForecast} />
+                  : fiveDayTlvForecast
+              }
+            />
           </div>
         )}
 
         {isFetched && (
-          <div className="col-span-1 mt-32 md:col-span-2 lg:col-span-3">
+          <div className="col-span-1 mt-10 md:col-span-2 lg:col-span-3">
             <ForecastList
               forecasts={
                 currentLocationFiveDayResults

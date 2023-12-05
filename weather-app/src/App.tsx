@@ -1,15 +1,19 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 import NavBar from "./app/UI-components/Navbar"
-import NotFound from "./app/pages/notFound";
-import HomePage from "./app/pages/HomePage";
-import FavoritePage from "./app/pages/FavoritePage";
-
-
+import NotFound from "./app/pages/notFound"
+import HomePage from "./app/pages/HomePage"
+import FavoritePage from "./app/pages/FavoritePage"
+import classNames from "classnames"
+import "./index.css"
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import { useAppSelector } from "./app/hooks"
 function App() {
+
   interface IRoute {
-    path: string;
-    key: string;
-    component: any;
+    path: string
+    key: string
+    component: any
   }
   const routes: Array<IRoute> = [
     {
@@ -26,22 +30,28 @@ function App() {
       path: "*",
       component: <NotFound />,
       key: "not_found",
-    }
-  
-  ];
+    },
+  ]
+  const theme = useAppSelector((state) => state.theme.theme) || "light"
+
   return (
-    <Router >
+    <Router>
       <NavBar />
-     
-      <div className="p-5 ">
+
+      <div
+        className={classNames({
+          "p-5 h-screen overflow-y-hidden bg-light": true ,
+          "bg-dark text-white":theme === "dark",
+         
+        })}
+      >
         <Routes>
           {routes.map((route) => (
-              <Route
-                path={route.path}
-                key={route.key}
-                element={route.component}
-              />
-            
+            <Route
+              path={route.path}
+              key={route.key}
+              element={route.component}
+            />
           ))}
         </Routes>
       </div>
