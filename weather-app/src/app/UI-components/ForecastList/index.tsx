@@ -18,6 +18,8 @@ const daysOfWeek = [
 
 const ForecastList = (props: { forecasts: Array<any> }) => {
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
+  const [maxTemp, setMaxTemp] = useState<number>(0)
+  const [minTemp, setMinTemp] = useState<number>(0)
 
   const [fiveDayForecast, setFiveDayForecast] = useState(
     (props.forecasts as any)?.DailyForecasts,
@@ -26,109 +28,83 @@ const ForecastList = (props: { forecasts: Array<any> }) => {
 
   const forecastRef = useRef<any>(null);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  function convertFahrenheitToCelsius(fahrenheit:number) {
+    const celsius = (fahrenheit - 32) * 5/9;
+    return parseFloat(celsius as any).toFixed(1);
 
-
-  const handleTemperatureIndicatorSelect = () => {
-    setIsOnFahrenheit(!isOnFahrenheit)
   }
-  const handlePrevClick = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : fiveDayForecast.length 
-    );
-    scrollIntoView()
-  };
 
-  const handleNextClick = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex < fiveDayForecast.length - 1 ? prevIndex + 1 : 0
-    );
-    scrollIntoView()
-  };
+  const handleTemperatureIndicatorSelect = (f:any) => {
+    setIsOnFahrenheit(!isOnFahrenheit)
+   
+    const minTemp = convertFahrenheitToCelsius(Number(f.Temperature.Minimum.Value))
+    const maxTemp = convertFahrenheitToCelsius(Number(f.Temperature.Maximum.Value))
+    setMinTemp(Number(minTemp))
+    setMaxTemp(Number(maxTemp))
 
-  const scrollIntoView = () => {
-    if (forecastRef.current) {
-      forecastRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-      });
-    }
-  };
+    
+  }
+ 
 
   return (
-    <div className="p-4  py-4 mb-20">
+    <div className="p-4 py-4 mb-20">
     <h2 className="text-2xl mt-2 font-semibold mb-4">Daily Forecasts</h2>
     <div className="flex gap-6 overflow-x-auto py-2">
-      {/* <button
-        className="text-gray-500 absolute left-0 before:bg-none top-[11rem] p-2 z-10 hover:bg-slate-50 rounded-full transform -translate-y-1/2 focus:outline-none"
-        onClick={handlePrevClick}
-      >
-        <FaChevronLeft size={30} />
-      </button> */}
-        {fiveDayForecast.map((forecast: any, index: number) => (
-          <div
-            key={index}
-            className={classNames({
-              "flex-none w-[20rem] shadow bg-none rounded-lg font-bold  m-2 p-4 transition-transform transform":true,
-              "opacity-70 bg-white": theme === "light",
-              " bg-gray-500 opacity-90": theme === "dark"
-              })} >
-            <div className="flex justify-between items-center">
+      {fiveDayForecast.map((forecast: any, index: number) => (
+        <div
+          key={index}
+          className={classNames({
+            "flex-none w-[20rem] shadow bg-none rounded-lg font-bold m-2 p-4 transition-transform transform": true,
+            "opacity-70 bg-white": theme === "light",
+            "bg-gray-500 opacity-90": theme === "dark",
+          })}
+        >
+          <div className="flex justify-between items-center">
             <h3 className="font-semibold">
               {daysOfWeek[new Date(forecast.Date).getDay()]}
             </h3>
             {isOnFahrenheit ? (
-                  <button
-                    onClick={() => handleTemperatureIndicatorSelect()}
-                    className="text-2xl  transition-colors"
-                  >
-                    <TbTemperatureCelsius className="mt-1 cursor-pointer" />
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleTemperatureIndicatorSelect()}
-                    className="text-2xl  transition-colors"
-                  >
-                    <TbTemperatureFahrenheit className=" mt-1 cursor-pointer" />
-                  </button>
-                )}
-                </div>
-            <br />
-            <p>
-              <strong>Day:</strong> {forecast.Day.IconPhrase}
-              <br />
-              <strong>Night:</strong> {forecast.Night.IconPhrase}
-              <br />
-              <strong>Max Temp:</strong> {forecast.Temperature.Maximum.Value}°F
-              <br />
-              <strong>Min Temp:</strong> {forecast.Temperature.Minimum.Value}°F
-            </p>
-            <span className="text-lg my-2 ">
-                    {!isOnFahrenheit ? (
-                      <span className="flex gap-2">
-                        {forecast.Temperature.Maximum.Value} °F{" "}
-                        <span className="mt-1">
-                          {" "}
-                          <FaTemperatureLow size={22} />{" "}
-                        </span>
-                      </span>
-                    ) : (
-                      <span className="flex gap-4 items-center">
-                        {" "}
-                        {forecast.Temperature.Minimum.Value}°C <FaTemperatureLow  />
-                      </span>
-                    )}
-                  </span>
+              <button
+                onClick={() => handleTemperatureIndicatorSelect(forecast)}
+                className="text-3xl text-white font-bold transition-colors"
+              >
+                <TbTemperatureCelsius className="mt-1 cursor-pointer" />
+              </button>
+            ) : (
+              <button
+                onClick={() => handleTemperatureIndicatorSelect(forecast)}
+                className="text-3xl text-white p-2 hover:bg-slate-50 rounded-full hover:text-black font-bold transition-colors duration-300 ease-in"
+              >
+                <TbTemperatureFahrenheit className="mt-1 cursor-pointer" />
+              </button>
+            )}
           </div>
-        ))}
-         {/* <button
-          className="text-gray-500 absolute right-0 top-[11rem] p-2 text-center bg-none z-10 hover:bg-slate-50 rounded-full transform -translate-y-1/2 focus:outline-none"
-          onClick={handleNextClick}
-        >
-          <FaChevronRight size={30} />
-        </button> */}
-      </div>
+          <br />
+          <p>
+            <strong>Day:</strong> {forecast.Day.IconPhrase}
+            <br />
+            <strong>Night:</strong> {forecast.Night.IconPhrase}
+          </p>
+          <span className="text-lg my-2 mt-2">
+            {!isOnFahrenheit ? (
+                <p>
+                  <strong>Max Temp:</strong> {forecast.Temperature.Maximum.Value}°F
+                <br />
+                  <strong>Min Temp:</strong> {forecast.Temperature.Minimum.Value}°F
+                </p>
+            ) : (
+              <span className="text-lg my-2 mt-2">
+                <strong>Max Temp:</strong> {maxTemp}°C
+                <br />
+                <strong>Min Temp:</strong> {minTemp}°C
+              </span>
+            )}
+          </span>
+        </div>
+      ))}
     </div>
+  </div>
+
   )
 }
 

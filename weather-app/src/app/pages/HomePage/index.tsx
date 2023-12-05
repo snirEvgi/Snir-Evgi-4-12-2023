@@ -100,7 +100,15 @@ const HomePage = () => {
       if (searchAutoComplete.fulfilled.match(response)) {
         // navigate("/homepage")
       setIsSearchResult(true)
-
+      searchInput.current.value = "";
+      console.log(response," searchInput.current.value = ");
+      if (response.payload.length<0 ){
+        toast.current?.show({
+          severity: "warn",
+          summary: "Nothing found",
+          detail: "Search something else nothing found.",
+        })
+      }
       } else {
         toast.current?.show({
           severity: "error",
@@ -120,6 +128,7 @@ const HomePage = () => {
       console.error("Search failed:", error)
     } finally {
       setIsLoading(false)
+
     }
   }
 

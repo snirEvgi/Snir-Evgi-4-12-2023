@@ -19,129 +19,129 @@ const MAX_LIKED = 5
 
 const FavoritePage = () => {
   const [favoriteList, setFavoriteList] = useState<any[]>(
-    // JSON.parse(localStorage.getItem('likedPlaces') as string) ||
-    [
-      {
-        LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-        EpochTime: 1701691800,
-        WeatherText: "Mostly cloudy",
-        WeatherIcon: 6,
-        HasPrecipitation: false,
-        PrecipitationType: null,
-        IsDayTime: true,
-        Temperature: {
-          Metric: {
-            Value: 21.6,
-            Unit: "C",
-            UnitType: 17,
-          },
-          Imperial: {
-            Value: 71,
-            Unit: "F",
-            UnitType: 18,
-          },
-        },
-        MobileLink:
-          "http://www.accuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-        Link: "http://www.accuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-      },
-      {
-        LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-        EpochTime: 1701691800,
-        WeatherText: "Mostly cloudy",
-        WeatherIcon: 6,
-        HasPrecipitation: false,
-        PrecipitationType: null,
-        IsDayTime: true,
-        Temperature: {
-          Metric: {
-            Value: 21.6,
-            Unit: "C",
-            UnitType: 17,
-          },
-          Imperial: {
-            Value: 71,
-            Unit: "F",
-            UnitType: 18,
-          },
-        },
-        MobileLink:
-          "httap://www.aaccuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-        Link: "htatp://waww.accuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-      },
-      {
-        LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-        EpochTime: 1701691800,
-        WeatherText: "Mostly cloudy",
-        WeatherIcon: 6,
-        HasPrecipitation: false,
-        PrecipitationType: null,
-        IsDayTime: true,
-        Temperature: {
-          Metric: {
-            Value: 21.6,
-            Unit: "C",
-            UnitType: 17,
-          },
-          Imperial: {
-            Value: 71,
-            Unit: "F",
-            UnitType: 18,
-          },
-        },
-        MobileLink:
-          "http://www.accuwaeather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-        Link: "http://www.acacuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-      },
-      {
-        LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-        EpochTime: 1701691800,
-        WeatherText: "Mostly cloudy",
-        WeatherIcon: 6,
-        HasPrecipitation: false,
-        PrecipitationType: null,
-        IsDayTime: true,
-        Temperature: {
-          Metric: {
-            Value: 21.6,
-            Unit: "C",
-            UnitType: 17,
-          },
-          Imperial: {
-            Value: 71,
-            Unit: "F",
-            UnitType: 18,
-          },
-        },
-        MobileLink:
-          "http://www.accuweasather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-        Link: "http://www.accsauweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-      },
-      {
-        LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-        EpochTime: 1701691800,
-        WeatherText: "Mostly cloudy",
-        WeatherIcon: 6,
-        HasPrecipitation: false,
-        PrecipitationType: null,
-        IsDayTime: false,
-        Temperature: {
-          Metric: {
-            Value: 21.6,
-            Unit: "C",
-            UnitType: 17,
-          },
-          Imperial: {
-            Value: 71,
-            Unit: "F",
-            UnitType: 18,
-          },
-        },
-        MobileLink:
-          "http://www.accuweather.com/en/ec/slos-angeles/1239134/current-weather/1239134?lang=en-us",
-        Link: "http://www.accuweather.com/ens/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-      },
-    ],
+    JSON.parse(localStorage.getItem('likedPlaces') as string) ||[]
+    // [
+    //   {
+    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
+    //     EpochTime: 1701691800,
+    //     WeatherText: "Mostly cloudy",
+    //     WeatherIcon: 6,
+    //     HasPrecipitation: false,
+    //     PrecipitationType: null,
+    //     IsDayTime: true,
+    //     Temperature: {
+    //       Metric: {
+    //         Value: 21.6,
+    //         Unit: "C",
+    //         UnitType: 17,
+    //       },
+    //       Imperial: {
+    //         Value: 71,
+    //         Unit: "F",
+    //         UnitType: 18,
+    //       },
+    //     },
+    //     MobileLink:
+    //       "http://www.accuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
+    //     Link: "http://www.accuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
+    //   },
+    //   {
+    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
+    //     EpochTime: 1701691800,
+    //     WeatherText: "Mostly cloudy",
+    //     WeatherIcon: 6,
+    //     HasPrecipitation: false,
+    //     PrecipitationType: null,
+    //     IsDayTime: true,
+    //     Temperature: {
+    //       Metric: {
+    //         Value: 21.6,
+    //         Unit: "C",
+    //         UnitType: 17,
+    //       },
+    //       Imperial: {
+    //         Value: 71,
+    //         Unit: "F",
+    //         UnitType: 18,
+    //       },
+    //     },
+    //     MobileLink:
+    //       "httap://www.aaccuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
+    //     Link: "htatp://waww.accuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
+    //   },
+    //   {
+    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
+    //     EpochTime: 1701691800,
+    //     WeatherText: "Mostly cloudy",
+    //     WeatherIcon: 6,
+    //     HasPrecipitation: false,
+    //     PrecipitationType: null,
+    //     IsDayTime: true,
+    //     Temperature: {
+    //       Metric: {
+    //         Value: 21.6,
+    //         Unit: "C",
+    //         UnitType: 17,
+    //       },
+    //       Imperial: {
+    //         Value: 71,
+    //         Unit: "F",
+    //         UnitType: 18,
+    //       },
+    //     },
+    //     MobileLink:
+    //       "http://www.accuwaeather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
+    //     Link: "http://www.acacuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
+    //   },
+    //   {
+    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
+    //     EpochTime: 1701691800,
+    //     WeatherText: "Mostly cloudy",
+    //     WeatherIcon: 6,
+    //     HasPrecipitation: false,
+    //     PrecipitationType: null,
+    //     IsDayTime: true,
+    //     Temperature: {
+    //       Metric: {
+    //         Value: 21.6,
+    //         Unit: "C",
+    //         UnitType: 17,
+    //       },
+    //       Imperial: {
+    //         Value: 71,
+    //         Unit: "F",
+    //         UnitType: 18,
+    //       },
+    //     },
+    //     MobileLink:
+    //       "http://www.accuweasather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
+    //     Link: "http://www.accsauweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
+    //   },
+    //   {
+    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
+    //     EpochTime: 1701691800,
+    //     WeatherText: "Mostly cloudy",
+    //     WeatherIcon: 6,
+    //     HasPrecipitation: false,
+    //     PrecipitationType: null,
+    //     IsDayTime: false,
+    //     Temperature: {
+    //       Metric: {
+    //         Value: 21.6,
+    //         Unit: "C",
+    //         UnitType: 17,
+    //       },
+    //       Imperial: {
+    //         Value: 71,
+    //         Unit: "F",
+    //         UnitType: 18,
+    //       },
+    //     },
+    //     MobileLink:
+    //       "http://www.accuweather.com/en/ec/slos-angeles/1239134/current-weather/1239134?lang=en-us",
+    //     Link: "http://www.accuweather.com/ens/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
+    //   },
+    // ],
   )
   const toast = useRef<Toast | null>(null)
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)

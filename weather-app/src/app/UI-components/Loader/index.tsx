@@ -2,7 +2,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 
 const Loader = () => {
   return (
-    <div className="relative flex z-[1000] justify-center items-center h-screen">
+<div className="flex z-50 absolute inset-0 mx-auto my-auto  justify-center items-center">
       <ProgressSpinner />
     </div>
   );

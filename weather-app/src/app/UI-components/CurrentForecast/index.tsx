@@ -28,18 +28,19 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
   const [favoriteList, setFavoriteList] = useState<any[]>(
     JSON.parse(localStorage.getItem('likedPlaces') as string) || []
   );
-  const [isShown, setIsShown] = useState<boolean>(false)
+  const isInitiallyLiked = favoriteList.some((p: any) => p.MobileLink === currentForecast.MobileLink);
+  const [isShown, setIsShown] = useState<boolean>(isInitiallyLiked)
   const toast = useRef<Toast | null>(null);
 
   const handleToggleLike = (place: any) => {
     const placeIdentifier = place.MobileLink;
-    const isLiked = favoriteList.some((p: any) => p.MobileLink === placeIdentifier);
-
-    if (!isLiked) {
+    const currentlyLiked = favoriteList.some((p: any) => p.MobileLink === placeIdentifier);
+    if (!currentlyLiked) {
       setIsShown(true)
       //  if the maximum limit is reached
       if (favoriteList.length < MAX_LIKED) {
         // state and local storage
+
         const updatedList = [...favoriteList, place];
         setFavoriteList(updatedList);
         localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
@@ -82,6 +83,10 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
      
     }
   };
+  useEffect(() => {
+    const isLikedUpdate = favoriteList.some((p: any) => p.MobileLink === currentForecast.MobileLink);
+    setIsShown(isLikedUpdate);
+  }, [favoriteList, currentForecast]);
 
   return (
     <div className="max-w-sm flex items-center justify-center">
