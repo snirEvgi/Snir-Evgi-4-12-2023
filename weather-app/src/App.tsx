@@ -2,6 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 import NavBar from "./app/UI-components/Navbar"
 import NotFound from "./app/pages/notFound";
 import HomePage from "./app/pages/HomePage";
+import FavoritePage from "./app/pages/FavoritePage";
 
 
 function App() {
@@ -15,6 +16,11 @@ function App() {
       path: "/",
       component: <HomePage />,
       key: "home_page",
+    },
+    {
+      path: "/favorites",
+      component: <FavoritePage />,
+      key: "favorites",
     },
     {
       path: "*",

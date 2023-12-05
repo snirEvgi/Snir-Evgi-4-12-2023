@@ -3,7 +3,7 @@ import { IoIosCloudy } from "react-icons/io";const NavBar = () => {
 
   const links = [
     { label: 'Home', href: '/' },
-    { label: 'My Locations', href: '/locations' },
+    { label: 'My Locations', href: '/favorites' },
   ]
 
   return (
