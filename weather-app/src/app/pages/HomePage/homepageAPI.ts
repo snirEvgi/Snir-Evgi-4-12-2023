@@ -1,7 +1,6 @@
 import axios from "axios"
 
 const locationSearch = "http://dataservice.accuweather.com/locations/v1/cities/search?apikey=ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO&q=Los%20Angeles"
-// const searchAutoCompleteURL = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO&q=${searchValue}`
 const apiKey3 = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"
 
 const apiKey2 = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"

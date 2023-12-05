@@ -40,8 +40,9 @@ const HomePage = () => {
         const telAvivData = await fetchTelAvivData()
         setFiveDayTlvForecast(telAvivData.fiveDayTlvForecast)
         setCurrentTlvForecast(telAvivData.currentTlvForecast)
-        setIsFetched(true)
         setIsSearchResult(true)
+        setIsFetched(true)
+        
       } catch (error) {
         setIsFetched(false)
         setIsSearchResult(false)
@@ -50,7 +51,7 @@ const HomePage = () => {
       }
     }
 
-    fetchTlvDataHandler()
+    // fetchTlvDataHandler()
    
   }, [])
 
@@ -63,7 +64,8 @@ const HomePage = () => {
   const currentLocationFiveDayResults = useAppSelector(
     (state) => state.weather.fiveDayForecast,
   )
-  const theme = useAppSelector((state) => state.theme.theme) || "light"
+  const theme = localStorage.getItem("theme")
+  const theme2 = useAppSelector((state) => state.theme.theme) ||theme
 
   const handleSelectCountry = async (result: any) => {
 
@@ -208,7 +210,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        {isFetched && (
+        {/* {isFetched && (
           <div className="h-fit col-span-1 ml-2">
             <CurrentForecast
               header={
@@ -241,7 +243,7 @@ const HomePage = () => {
               }
             />
           </div>
-        )}
+        )} */}
       </div>
     </div>
   )

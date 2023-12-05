@@ -23,8 +23,8 @@ const daysOfWeek = [
 const MAX_LIKED = 5;
 
 const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
-  const theme = useAppSelector((state) => state.theme.theme) || "light"
-
+  const theme = localStorage.getItem("theme")
+  const theme2 = useAppSelector((state) => state.theme.theme) ||theme
   const [favoriteList, setFavoriteList] = useState<any[]>(
     JSON.parse(localStorage.getItem('likedPlaces') as string) || []
   );

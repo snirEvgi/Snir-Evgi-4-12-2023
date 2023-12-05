@@ -24,7 +24,8 @@ const ForecastList = (props: { forecasts: Array<any> }) => {
   const [fiveDayForecast, setFiveDayForecast] = useState(
     (props.forecasts as any)?.DailyForecasts,
   )
-  const theme = useAppSelector((state) => state.theme.theme) || "light"
+  const theme = localStorage.getItem("theme")
+  const theme2 = useAppSelector((state) => state.theme.theme) ||theme
 
   const forecastRef = useRef<any>(null);
 

@@ -32,7 +32,8 @@ function App() {
       key: "not_found",
     },
   ]
-  const theme = useAppSelector((state) => state.theme.theme) || "light"
+  const theme = localStorage.getItem("theme")
+  const theme2 = useAppSelector((state) => state.theme.theme) ||theme
 
   return (
     <Router>
