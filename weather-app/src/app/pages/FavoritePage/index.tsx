@@ -15,40 +15,24 @@ const daysOfWeek = [
 const MAX_LIKED = 5
 
 const FavoritePage = () => {
-  const toast = useRef<Toast | null>(null)
-  const storedLikedPlaces = JSON.parse(
-    localStorage.getItem("likedPlaces") as any,
-  )
-  const [likedPlaces, setLikedPlaces] = useState<string[]>(storedLikedPlaces)
-  const [currentForecast, setCurrentForecast] = useState<any>({})
-
-  //   useEffect(() => {
-  // console.log(storedLikedPlaces)
-
-  // if (storedLikedPlaces) {
-  //   setLikedPlaces(storedLikedPlaces)
-  // }
-  //   }, [])
-  //   useEffect(() => {
-  //   }, [likedPlaces])
-
-  const handleRemoveLike = (currentForecast: any) => {
+    const [favoriteList, setFavoriteList] = useState<any[]>(
+        JSON.parse(localStorage.getItem('likedPlaces') as string) || []
+      );
+      const [currentForecast ,setCurrentForecast ] = useState<any>({})
+      const toast = useRef<Toast | null>(null);
+    
+      
+  const handleRemoveLike = (place: any) => {
+    setCurrentForecast(place)
+    const placeIdentifier = place.MobileLink;
+    const isLiked = favoriteList.some((p: any) => p.MobileLink === placeIdentifier);
     // Remove from liked places if already liked
-    setLikedPlaces(
-      likedPlaces.filter(
-        (likedPlace: any) => likedPlace.MobileLink !== placeIdentifier,
-      ),
-    )
-    localStorage.setItem("likedPlaces", JSON.stringify(likedPlaces))
-
-    toast.current?.show({
-      severity: "success",
-      summary: "Weather choice removed successfully",
-      detail: `You now can have ${MAX_LIKED - 5} more favorite places.`,
-    })
+    const updatedList = favoriteList.filter((p: any) => p.MobileLink !== placeIdentifier);
+          setFavoriteList(updatedList);
+          localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
   }
   const placeIdentifier = currentForecast.MobileLink
-  const isLiked = likedPlaces.some(
+  const isLiked = favoriteList.some(
     (place: any) => place.MobileLink === placeIdentifier,
   )
   return (
@@ -58,7 +42,7 @@ const FavoritePage = () => {
       <h2 className="text-2xl font-semibold text-center mb-6">Favorite Forecasts</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {likedPlaces.map((place:any, index:number) => (
+        {favoriteList.map((place:any, index:number) => (
           <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">

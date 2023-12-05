@@ -24,6 +24,7 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
   const [favoriteList, setFavoriteList] = useState<any[]>(
     JSON.parse(localStorage.getItem('likedPlaces') as string) || []
   );
+  const [isShown, setIsShown] = useState<boolean>(false)
   const toast = useRef<Toast | null>(null);
 
   const handleToggleLike = (place: any) => {
@@ -31,6 +32,7 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
     const isLiked = favoriteList.some((p: any) => p.MobileLink === placeIdentifier);
 
     if (!isLiked) {
+      setIsShown(true)
       //  if the maximum limit is reached
       if (favoriteList.length < MAX_LIKED) {
         // state and local storage
@@ -49,13 +51,11 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
     } else {
       // remove of the liked place 
       const updatedList = favoriteList.filter((p: any) => p.MobileLink !== placeIdentifier);
+      setIsShown(false)
       setFavoriteList(updatedList);
       localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
     }
   };
-
-  const placeIdentifier = currentForecast.MobileLink;
-  const isLiked = favoriteList.some((p: any) => p.MobileLink === placeIdentifier);
 
   return (
     <div className="max-w-sm flex items-center justify-center">
@@ -73,7 +73,7 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
                 className={`text-2xl transition-colors text-red-500`}
                 onClick={()=>handleToggleLike(currentForecast)}
               >
-           {isLiked   ?  <FaHeart className={`cursor-pointer text-red-500`} /> : <IoHeartDislike className={`cursor-pointer text-gray-500`} />}
+           {!isShown   ?  <FaHeart className={`cursor-pointer text-red-500`} /> : <IoHeartDislike className={`cursor-pointer text-gray-500`} />}
               </button>
             </div>
           </div>
