@@ -53,7 +53,6 @@ const HomePage = () => {
   const theme = localStorage.getItem("theme")
   console.log(currenGeoLocationResults, currentForecast, "daslkjdjsahdjsa")
   const fetchTlvDataHandler = async () => {
-    if (isGeoApproved) return
     try {
       const telAvivData = await fetchTelAvivData()
       setFiveDayTlvForecast(telAvivData.fiveDayTlvForecast)
@@ -71,7 +70,6 @@ const HomePage = () => {
   }
 
   const fetchGeoLocationDataHandler = async (location:any) => {
-    if (!isGeoApproved) return
 
     try {
       const response:any = await dispatch(
@@ -99,17 +97,24 @@ const HomePage = () => {
   
 
   const successHandler = async (location: any) => {
-    console.log(location)
-    // setLat(location.coords.latitude)
-    // setLon(location.coords.longitude)
+    // console.log(location)
+    // // setLat(location.coords.latitude)
+    // // setLon(location.coords.longitude)
     setLocation(location)
-    setIsGeoApproved(true)
-  
-  
+    // setIsGeoApproved(true)
+
+      // what to do if supported
+      fetchGeoLocationDataHandler(location)
+
+
   }
+
+
+  
   const errorHandler = (error: any) => {
     console.log(error)
-setIsGeoApproved(false)
+    fetchTlvDataHandler()
+    // setIsGeoApproved(false)
     
   }
 
@@ -118,17 +123,10 @@ setIsGeoApproved(false)
       successHandler,
       errorHandler,
     )
- 
+   
   }, [])
- useEffect(()=>{
-     
-if (!isGeoApproved) {
-  fetchTlvDataHandler()
-}else{
-  fetchGeoLocationDataHandler(geoLoc)
 
-}
- },[isGeoApproved])
+  
 
   const handleSelectCountry = async (result: any) => {
     try {
