@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useDeferredValue, useEffect, useRef, useState } from "react"
 import { Toast } from "primereact/toast"
 import { z } from "zod"
 import { useAppDispatch, useAppSelector } from "../../hooks"
@@ -31,7 +31,8 @@ const HomePage = () => {
   const [geoLoc, setLocation] = useState<any>({})
   
   const [currentCountryName, setCountryName] = useState<string>("")
-  
+  const deferredSearchInput = useDeferredValue<any>(searchInput.current?.value);
+
   const dispatch = useAppDispatch()
 
   const searchSchema = z.object({
@@ -52,6 +53,8 @@ const HomePage = () => {
   )
   const theme = localStorage.getItem("theme")
   console.log(currenGeoLocationResults, currentForecast, "daslkjdjsahdjsa")
+
+
   const fetchTlvDataHandler = async () => {
     try {
       const telAvivData = await fetchTelAvivData()
@@ -154,7 +157,7 @@ setIsGeoApproved(false)
       searchSchema.parse({ text: searchInput.current?.value })
 
       const response = await dispatch(
-        searchAutoComplete(searchInput.current?.value),
+        searchAutoComplete(deferredSearchInput),
       )
 
       if (searchAutoComplete.fulfilled.match(response)) {
@@ -215,7 +218,7 @@ setIsGeoApproved(false)
           >
             <div
               className={classNames({
-                "flex  rounded-2xl justify-center items-center p-4": true,
+                "flex min-w-[355px] rounded-2xl justify-center items-center p-4": true,
                 "bg-gray-700": theme === "dark",
                 "bg-white": theme === "light",
               })}

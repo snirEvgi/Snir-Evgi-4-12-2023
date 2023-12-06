@@ -64,13 +64,13 @@ const data = {
   }
   return (
 <div className={classNames({
-    "p-4 shadow-lg rounded-lg max-w-sm min-w-[326px]":true,
+    "p-4 shadow-lg rounded-lg max-w-sm min-w-[345px]":true,
     "bg-white opacity-70 text-black":theme==="light",
     "bg-gray-500 opacity-90 text-white": theme === "dark",
     })}>
     <h2 className="text-2xl text-black font-semibold mb-4">Daily Temperature Visual</h2>
       <div className="flex items-center justify-center gap-6 py-2">
-    <div className="max-w-sm   text-white">
+    <div className="max-w-sm min-w-[355px] flex justify-center  mr-2 text-white">
           <Bar data={data}  options={options} />
         </div>
       </div>

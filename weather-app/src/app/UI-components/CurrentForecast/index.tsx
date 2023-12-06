@@ -60,7 +60,7 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
         cancelButtonColor: "#d33",
         confirmButtonText: "Confirm",
         showCancelButton: true,
-        // cancelButtonText: "Cancel",
+        cancelButtonText: "Cancel",
     }).then((result) => {
         if (!result.isConfirmed) {
 
@@ -81,7 +81,7 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
   }, [favoriteList, currentForecast]);
 
   return (
-    <div className="max-w-sm flex items-center justify-center">
+    <div className="max-w-sm flex min-w-[345px] items-center justify-center">
       <Toast ref={toast} />
       {isLoading && <Loader />}
 

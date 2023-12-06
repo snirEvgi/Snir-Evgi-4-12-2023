@@ -193,7 +193,7 @@ const handleSetFiveDayForecast = async (place:any)=>{
         cancelButtonColor: "#d33",
         confirmButtonText: "Confirm",
         showCancelButton: true,
-        // cancelButtonText: "Cancel",
+        cancelButtonText: "Cancel",
     }).then((result) => {
         if (!result.isConfirmed) {
 
