@@ -211,7 +211,7 @@ const HomePage = () => {
           >
             <div
               className={classNames({
-                "flex min-w-[355px] rounded-2xl justify-center items-center p-4": true,
+                "flex min-w-[355px] rounded-2xl ml-1 justify-center items-center p-4": true,
                 "bg-gray-700": theme === "dark",
                 "bg-white": theme === "light",
               })}
