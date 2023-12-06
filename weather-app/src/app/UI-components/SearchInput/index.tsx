@@ -17,7 +17,7 @@ const SearchInput = (props:{ referral:any,handleSearch:any}) => {
         " bg-white text-black": theme === "light",
       })}
       placeholder="Search Any Place..."
-      onChange={props.handleSearch}
+      onClick={props.handleSearch}
     />
     <div
       className="flex items-center justify-center border-l cursor-pointer px-4 bg-gray-200 dark:bg-gray-600 rounded-r-lg"

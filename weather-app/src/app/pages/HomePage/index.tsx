@@ -26,12 +26,8 @@ const HomePage = () => {
   const [currentForecast, setCurrentForecast] = useState<any>({})
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFetched, setIsFetched] = useState<boolean>(false)
-  const [isGeoApproved, setIsGeoApproved] = useState<boolean>(false)
-  const [lat, setLat] = useState<number>(0)
-  const [geoLoc, setLocation] = useState<any>({})
   
   const [currentCountryName, setCountryName] = useState<string>("")
-  const deferredSearchInput = useDeferredValue<any>(searchInput.current?.value);
 
   const dispatch = useAppDispatch()
 
@@ -102,7 +98,6 @@ const HomePage = () => {
   const successHandler = async (location: any) => {
     console.log(location)
     fetchGeoLocationDataHandler(location)
-    setIsGeoApproved(true)
    
   
   
@@ -110,7 +105,6 @@ const HomePage = () => {
   const errorHandler = (error: any) => {
     console.log(error)
     fetchTlvDataHandler()
-setIsGeoApproved(false)
     
   }
 
@@ -153,15 +147,14 @@ setIsGeoApproved(false)
     try {
       setIsLoading(true)
 
-      // Validate using Zod schema
+      // Validate using zod schema
       searchSchema.parse({ text: searchInput.current?.value })
 
       const response = await dispatch(
-        searchAutoComplete(deferredSearchInput),
+        searchAutoComplete(searchInput.current.value),
       )
 
       if (searchAutoComplete.fulfilled.match(response)) {
-        // navigate("/homepage")
         setIsSearchResult(true)
         searchInput.current.value = ""
         console.log(response, " searchInput.current.value = ")
