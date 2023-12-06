@@ -41,7 +41,7 @@ const ForecastList = (props: { header?:string, forecasts: Array<any> }) => {
  
 
   return (
-    <div className="p-4 py-4 mb-20">
+    <div className="p-4  py-4 mb-20">
       
 
     <h2 className="text-2xl mt-2 font-semibold mb-4">{props.header?props.header:"Daily Forecasts"}</h2>
@@ -50,12 +50,12 @@ const ForecastList = (props: { header?:string, forecasts: Array<any> }) => {
         <div
           key={index}
           className={classNames({
-            "flex-none w-[20rem]  shadow bg-none rounded-lg font-bold m-2 p-4 transition-transform transform": true,
+            "flex-none w-[20rem] min-w-[356px] shadow bg-none rounded-lg font-bold m-2 p-4 transition-transform transform": true,
             "opacity-70 bg-white": theme === "light",
             "bg-gray-500 opacity-90": theme === "dark",
           })}
         >
-          <div className="flex max-h-[2rem]  justify-between items-center">
+          <div className="flex max-h-[2rem]   justify-between items-center">
             <h3 className="font-semibold">
               {daysOfWeek[new Date(forecast.Date).getDay()]}
             </h3>

@@ -64,7 +64,7 @@ const data = {
   }
   return (
 <div className={classNames({
-    "p-4 shadow-lg rounded-lg max-w-sm":true,
+    "p-4 shadow-lg rounded-lg max-w-sm min-w-[326px]":true,
     "bg-white opacity-70 text-black":theme==="light",
     "bg-gray-500 opacity-90 text-white": theme === "dark",
     })}>
