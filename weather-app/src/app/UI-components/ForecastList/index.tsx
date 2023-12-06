@@ -4,17 +4,9 @@ import { useAppSelector } from "../../hooks";
 import classNames from "classnames";
 import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb"
 import {  FaTemperatureLow } from "react-icons/fa"
+import { daysOfWeek } from "../../pages/FavoritePage";
 
 
-const daysOfWeek = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-]
 
 const ForecastList = (props: { forecasts: Array<any> }) => {
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)

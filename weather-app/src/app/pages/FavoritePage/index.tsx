@@ -6,7 +6,7 @@ import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb"
 import classnames from "classnames"
 import { useAppSelector } from "../../hooks"
 
-const daysOfWeek = [
+export const daysOfWeek = [
   "Sunday",
   "Monday",
   "Tuesday",
@@ -15,7 +15,6 @@ const daysOfWeek = [
   "Friday",
   "Saturday",
 ]
-const MAX_LIKED = 5
 
 const FavoritePage = () => {
   const [favoriteList, setFavoriteList] = useState<any[]>(
@@ -146,6 +145,7 @@ const FavoritePage = () => {
   const toast = useRef<Toast | null>(null)
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
   const currentTheme = useAppSelector((state) => state.theme.theme) || "light"
+  const theme = localStorage.getItem("theme")
   const handleRemoveLike = (place: any) => {
     const placeIdentifier = place.MobileLink
     const updatedList = favoriteList.filter(
@@ -178,17 +178,15 @@ const FavoritePage = () => {
             key={index}
             className={classnames({
               " shadow-lg font-bold   opacity-70 min-h-[18rem] rounded-lg overflow-hidden": true,
-              "bg-gray-500 opacity-90": currentTheme === "dark",
-              "bg-white": currentTheme === "light",
+              "bg-gray-500 opacity-90": theme === "dark",
+              "bg-white": theme === "light",
             })}
           >
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium">
                   {
-                    daysOfWeek[
-                      new Date(place.LocalObservationDateTime).getDay()
-                    ]
+                    place.LocalizedName
                   }
                 </h3>
                 {isOnFahrenheit ? (

@@ -1,8 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
 
 const apiKey2 = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"
-const apiKey= "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"
+const apiKey3= "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"
+const apiKey= "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"
 
 interface IAutoCompleteResult {
   autoCompleteResults: any[] | null
@@ -68,14 +69,15 @@ export const fetchCurrentForecast = createAsyncThunk(
 const weatherSlice = createSlice({
   name: "weather",
   initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers: (builder) => {
     builder
       .addCase(searchAutoComplete.pending, (state) => {
         state.loading = true
         state.error = undefined
       })
-      .addCase(searchAutoComplete.fulfilled, (state, action) => {
+      .addCase(searchAutoComplete.fulfilled, (state, action:PayloadAction<Array<any>>) => {
         state.loading = false
         state.autoCompleteResults = action.payload
       })
@@ -87,7 +89,7 @@ const weatherSlice = createSlice({
         state.loading = true
         state.error = undefined
       })
-      .addCase(fetchFiveDayForecast.fulfilled, (state, action) => {
+      .addCase(fetchFiveDayForecast.fulfilled, (state, action:PayloadAction<any>) => {
         state.loading = false
         state.fiveDayForecast = action.payload
       })
@@ -99,7 +101,7 @@ const weatherSlice = createSlice({
         state.loading = true
         state.error = undefined
       })
-      .addCase(fetchCurrentForecast.fulfilled, (state, action) => {
+      .addCase(fetchCurrentForecast.fulfilled, (state, action:PayloadAction<any>) => {
         state.loading = false;
         state.currentForecast = action.payload
       })

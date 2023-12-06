@@ -41,7 +41,7 @@ function App() {
 
       <div
         className={classNames({
-          "p-5 h-screen overflow-y-hidden bg-light": true ,
+          "p-5 h-screen overflow-auto md:overflow-auto xl:overflow-auto lg:overflow-y-hidden  bg-light": true ,
           "bg-dark text-white":theme === "dark",
          
         })}

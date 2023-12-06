@@ -19,8 +19,6 @@ const DataVisual = (props: { forecasts: Array<any> }) => {
         (props.forecasts as any)?.DailyForecasts,
       )
       const theme = localStorage.getItem("theme")
-      const theme2 = useAppSelector((state) => state.theme.theme) ||theme
-    
 const data = {
     labels: fiveDayForecast.map(
       (forecast: any) => daysOfWeek[new Date(forecast.Date).getDay()],
@@ -76,8 +74,8 @@ const data = {
     "bg-gray-500 opacity-90 text-white": theme === "dark",
     })}>
     <h2 className="text-2xl text-black font-semibold mb-4">Daily Temperature Visual</h2>
-      <div className="flex gap-6 py-2">
-    <div className="max-w-sm text-white">
+      <div className="flex items-center justify-center gap-6 py-2">
+    <div className="max-w-sm   text-white">
           <Bar data={data}  options={options} />
         </div>
       </div>

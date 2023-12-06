@@ -5,33 +5,25 @@ import { IoHeartDislike } from "react-icons/io5";
 import { useAppSelector } from '../../hooks';
 import classNames from 'classnames';
 import Swal from 'sweetalert2';
+import { daysOfWeek } from '../../pages/FavoritePage';
 
 interface CurrentForecastProps {
   currentForecast: any | {};
   header?: string;
+  
 }
 
-const daysOfWeek = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
+
 const MAX_LIKED = 5;
 
 const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
   const theme = localStorage.getItem("theme")
-  const theme2 = useAppSelector((state) => state.theme.theme) ||theme
   const [favoriteList, setFavoriteList] = useState<any[]>(
-    JSON.parse(localStorage.getItem('likedPlaces') as string) || []
-  );
+    JSON.parse(localStorage.getItem('likedPlaces') as string) || []);
   const isInitiallyLiked = favoriteList.some((p: any) => p.MobileLink === currentForecast.MobileLink);
   const [isShown, setIsShown] = useState<boolean>(isInitiallyLiked)
   const toast = useRef<Toast | null>(null);
-
+  
   const handleToggleLike = (place: any) => {
     const placeIdentifier = place.MobileLink;
     const currentlyLiked = favoriteList.some((p: any) => p.MobileLink === placeIdentifier);
@@ -40,9 +32,8 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
       //  if the maximum limit is reached
       if (favoriteList.length < MAX_LIKED) {
         // state and local storage
-
-        const updatedList = [...favoriteList, place];
-        setFavoriteList(updatedList);
+        const updatedList = [...favoriteList, { ...place, LocalizedName: header }];
+          setFavoriteList(updatedList);
         localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
         toast?.current?.show({
           severity: 'success',

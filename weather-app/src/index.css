@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body{
-  background-image: url("./app/images/bg.webp") !important;
-   color:black;
+body{
    font-family: Arial, sans-serif;
    background-attachment: fixed;
    background-position: center;
@@ -12,21 +10,29 @@
    background-size: cover;
    scroll-behavior: smooth;
   
-} */
+}
+@media (max-width: 767px) {
 
-.bg-light{
-  background-image: url("./app/images/bg.webp") ;
+  .p-toast-message {
+    font-size: 14px;
+    margin-left: 3.2rem;
+ }
+  .swal2-popup {
+    scale: 0.9;
+  }
+}
+.bg-light {
+  background-image: url("./app/images/bg.webp");
   font-family: Arial, sans-serif;
-   background-attachment: fixed;
-   background-position: center;
-   background-repeat: no-repeat;
-   background-size: cover;
-   scroll-behavior: smooth;
-  
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  scroll-behavior: smooth;
 }
 
-.bg-dark{
-  background-image: url("./app/images/black-bg.webp") ;
+.bg-dark {
+  background-image: url("./app/images/black-bg.webp");
   font-family: Arial, sans-serif;
   background-attachment: fixed;
   background-position: center;

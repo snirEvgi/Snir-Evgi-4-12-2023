@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react"
-import { IoSearch } from "react-icons/io5"
 import { Toast } from "primereact/toast"
 import { z } from "zod"
 import { useAppDispatch, useAppSelector } from "../../hooks"
@@ -17,9 +16,11 @@ import CurrentForecast from "../../UI-components/CurrentForecast"
 import DataVisual from "../../UI-components/DataVisualisation"
 import classNames from "classnames"
 import Loader from "../../UI-components/Loader"
+import SearchInput from "../../UI-components/SearchInput"
+import SearchResultsList from "../../UI-components/SearchResultList"
 
 const HomePage = () => {
-  const searchInput = useRef<HTMLInputElement>(null)
+  const searchInput = useRef<HTMLInputElement|null>(null)
   const toast = useRef<Toast | null>(null)
   const [isSearchResult, setIsSearchResult] = useState<boolean>(false)
   const [fiveDayTlvForecast, setFiveDayTlvForecast] = useState<Array<any>>([])
@@ -40,19 +41,19 @@ const HomePage = () => {
         const telAvivData = await fetchTelAvivData()
         setFiveDayTlvForecast(telAvivData.fiveDayTlvForecast)
         setCurrentTlvForecast(telAvivData.currentTlvForecast)
-        setIsSearchResult(true)
         setIsFetched(true)
-        
+        setIsLoading(true)
       } catch (error) {
         setIsFetched(false)
-        setIsSearchResult(false)
+        setIsLoading(false)
 
         console.error("Data fetch failed:", error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
-    // fetchTlvDataHandler()
-   
+    fetchTlvDataHandler()
   }, [])
 
   const autoCompleteResults = useAppSelector(
@@ -65,22 +66,18 @@ const HomePage = () => {
     (state) => state.weather.fiveDayForecast,
   )
   const theme = localStorage.getItem("theme")
-  const theme2 = useAppSelector((state) => state.theme.theme) ||theme
 
   const handleSelectCountry = async (result: any) => {
-
-  try {
+    try {
       setCountryName(result.LocalizedName)
+
       const response = await dispatch(fetchFiveDayForecast(result?.Key))
       const response2 = await dispatch(fetchCurrentForecast(result?.Key))
-
-  } catch (error) {
-    console.log(error);
-    
-  }finally{
-    setIsSearchResult(false)
-
-  }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsSearchResult(false)
+    }
   }
   const handleSearch = async () => {
     if (
@@ -101,16 +98,16 @@ const HomePage = () => {
 
       if (searchAutoComplete.fulfilled.match(response)) {
         // navigate("/homepage")
-      setIsSearchResult(true)
-      searchInput.current.value = "";
-      console.log(response," searchInput.current.value = ");
-      if (response.payload.length<0 ){
-        toast.current?.show({
-          severity: "warn",
-          summary: "Nothing found",
-          detail: "Search something else nothing found.",
-        })
-      }
+        setIsSearchResult(true)
+        searchInput.current.value = ""
+        console.log(response, " searchInput.current.value = ")
+        if (response.payload.length < 0) {
+          toast.current?.show({
+            severity: "warn",
+            summary: "Nothing found",
+            detail: "Search something else nothing found.",
+          })
+        }
       } else {
         toast.current?.show({
           severity: "error",
@@ -130,7 +127,6 @@ const HomePage = () => {
       console.error("Search failed:", error)
     } finally {
       setIsLoading(false)
-
     }
   }
 
@@ -141,7 +137,7 @@ const HomePage = () => {
       })}
     >
       <Toast ref={toast} />
-      {isLoading && <Loader/>}
+      {isLoading && <Loader />}
 
       <div
         className={classnames({
@@ -156,61 +152,26 @@ const HomePage = () => {
               " bg-white": theme === "light",
             })}
           >
-            <div className={classNames({
-              "flex  rounded-2xl justify-center items-center p-4":true,
-              "bg-gray-700":theme === "dark",
-              "bg-white":theme === "light"
-          })}>
-              <div className="flex w-full">
-                <input
-                  ref={searchInput}
-                  type="text"
-                  className={classNames({
-                    "flex-grow h-12 pr-8 pl-5 rounded-l-lg focus:shadow-outline focus:outline-none bg-transparent ":
-                      true,
-                    " bg-gray-800 text-white": theme === "dark",
-                    " bg-white text-black": theme === "light",
-                  })}
-                  placeholder="Search Any Place..."
-                />
-                <div
-                  className="flex items-center justify-center border-l cursor-pointer px-4 bg-gray-200 dark:bg-gray-600 rounded-r-lg"
-                  onClick={handleSearch}
-                >
-                  <IoSearch className="text-gray-600 dark:text-white" />
-                </div>
-              </div>
+            <div
+              className={classNames({
+                "flex  rounded-2xl justify-center items-center p-4": true,
+                "bg-gray-700": theme === "dark",
+                "bg-white": theme === "light",
+              })}
+            >
+              <SearchInput handleSearch={handleSearch} referral={searchInput}/>
+
             </div>
 
             {isSearchResult && (
-              <div className="max-h-40 overflow-auto">
-                <ul
-                  className={classNames({
-                    "  divide-y rounded-xl": true,
-                    "bg-gray-800 divide-gray-700 text-white": theme === "dark",
-                    "bg-white divide-gray-200 text-black": theme === "light",
-                  })}
-                >
-                  {autoCompleteResults?.map((result) => (
-                    <li
-                      onClick={() => handleSelectCountry(result)}
-                      key={result.Key}
-                      className={classNames({
-                        "px-4 py-2 cursor-pointer  ": true,
-                        "hover:bg-gray-900 text-white": theme === "black",
-                        "hover:bg-gray-100 text-black": theme === "light",
-                      })}
-                    >
-                      {result.LocalizedName}
-                    </li>
-                  ))}
-                </ul>
+              <div className="">
+                <SearchResultsList autoCompleteResults={autoCompleteResults} handleSelectCountry={handleSelectCountry} theme={theme} />
               </div>
             )}
           </div>
         </div>
 
-        {/* {isFetched && (
+        {isFetched && (
           <div className="h-fit col-span-1 ml-2">
             <CurrentForecast
               header={
@@ -243,7 +204,7 @@ const HomePage = () => {
               }
             />
           </div>
-        )} */}
+        )}
       </div>
     </div>
   )
