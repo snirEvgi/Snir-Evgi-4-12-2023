@@ -28,7 +28,7 @@ const SearchResultItem = ({ result, theme, handleSelectCountry }:any) => {
           </p>
         </div>
         <div className="text-sm">
-          <span className="font-semibold">ID:</span> {result.Key}
+          <span className="font-semibold">Country ID:</span> {" "}{result.Country.ID}
         </div>
       </div>
     </li>

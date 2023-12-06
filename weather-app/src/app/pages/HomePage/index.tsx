@@ -2,15 +2,14 @@ import { useEffect, useRef, useState } from "react"
 import { Toast } from "primereact/toast"
 import { z } from "zod"
 import { useAppDispatch, useAppSelector } from "../../hooks"
-import { useNavigate } from "react-router-dom"
 import {
   fetchCurrentForecast,
+  fetchCurrentForecastWithGeoLocation,
   fetchFiveDayForecast,
   searchAutoComplete,
 } from "./weatherSlice"
 import { fetchTelAvivData } from "./homepageAPI"
 import classnames from "classnames"
-
 import ForecastList from "../../UI-components/ForecastList"
 import CurrentForecast from "../../UI-components/CurrentForecast"
 import classNames from "classnames"
@@ -20,42 +19,20 @@ import SearchResultsList from "../../UI-components/SearchResultList"
 import DataVisualHome from "../../UI-components/DataVisualizationHome"
 
 const HomePage = () => {
- 
-  const searchInput = useRef<HTMLInputElement|null>(null)
+  const searchInput = useRef<HTMLInputElement | null>(null)
   const toast = useRef<Toast | null>(null)
   const [isSearchResult, setIsSearchResult] = useState<boolean>(false)
   const [fiveDayTlvForecast, setFiveDayTlvForecast] = useState<Array<any>>([])
-  const [currentTlvForecast, setCurrentTlvForecast] = useState<any>({})
+  const [currentForecast, setCurrentForecast] = useState<any>({})
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFetched, setIsFetched] = useState<boolean>(false)
+  const [lat, setLat] = useState<string>("")
+  const [lon, setLon] = useState<string>("")
   const [currentCountryName, setCountryName] = useState<string>("")
-
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
   const searchSchema = z.object({
     text: z.string().min(1),
   })
-
-  useEffect(() => {
-    const fetchTlvDataHandler = async () => {
-      try {
-        const telAvivData = await fetchTelAvivData()
-        setFiveDayTlvForecast(telAvivData.fiveDayTlvForecast)
-        setCurrentTlvForecast(telAvivData.currentTlvForecast)
-        setIsFetched(true)
-        setIsLoading(true)
-      } catch (error) {
-        setIsFetched(false)
-        setIsLoading(false)
-
-        console.error("Data fetch failed:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchTlvDataHandler()
-  }, [])
 
   const autoCompleteResults = useAppSelector(
     (state) => state.weather.autoCompleteResults,
@@ -63,10 +40,73 @@ const HomePage = () => {
   const currentLocationResults = useAppSelector(
     (state) => state.weather.currentForecast,
   )
+  const currenGeoLocationResults = useAppSelector(
+    (state) => state.weather.geoForecast,
+  )
   const currentLocationFiveDayResults = useAppSelector(
     (state) => state.weather.fiveDayForecast,
   )
   const theme = localStorage.getItem("theme")
+  console.log(currenGeoLocationResults, currentForecast, "daslkjdjsahdjsa")
+  const fetchTlvDataHandler = async () => {
+    try {
+      const telAvivData = await fetchTelAvivData()
+      setFiveDayTlvForecast(telAvivData.fiveDayTlvForecast)
+      setCurrentForecast(telAvivData.currentTlvForecast)
+      setIsFetched(true)
+      setIsLoading(true)
+    } catch (error) {
+      setIsFetched(false)
+      setIsLoading(false)
+
+      console.error("Data fetch failed:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+
+  const successHandler = async (location: any) => {
+    console.log(location)
+    setLat(location.coords.latitude)
+    setLon(location.coords.longitude)
+    
+   
+    try {
+      const response:any = await dispatch(
+        fetchCurrentForecastWithGeoLocation({ lat: location.coords.latitude, lang: location.coords.longitude }),
+      )  
+      setIsFetched(true)
+      setIsLoading(true)
+      setFiveDayTlvForecast(response?.payload?.fiveDayGeoForecast)
+      setCurrentForecast(response?.payload?.currentGeoForecast)
+      setCountryName(response?.payload?.geoLocation.LocalizedName)
+      console.log(response, "GeoLocation response");
+      console.log(currenGeoLocationResults, " geogeo")
+    } catch (error) {
+      setIsFetched(false)
+      setIsLoading(false)
+      console.error(
+        "Fetching current forecast with geo-location failed:",
+        error,
+      )
+    }finally{
+      setIsLoading(false)
+
+    }
+  
+  }
+  const errorHandler = (error: any) => {
+    console.log(error)
+    fetchTlvDataHandler()
+  }
+
+  useEffect(() => {
+    const geoLocation = navigator.geolocation.getCurrentPosition(
+      successHandler,
+      errorHandler,
+    )
+  }, [])
 
   const handleSelectCountry = async (result: any) => {
     try {
@@ -74,10 +114,15 @@ const HomePage = () => {
 
       const response = await dispatch(fetchFiveDayForecast(result?.Key))
       const response2 = await dispatch(fetchCurrentForecast(result?.Key))
+      setIsLoading(true)
     } catch (error) {
       console.log(error)
+      setIsLoading(false)
+
     } finally {
       setIsSearchResult(false)
+      setIsLoading(false)
+
     }
   }
   const handleSearch = async () => {
@@ -160,13 +205,16 @@ const HomePage = () => {
                 "bg-white": theme === "light",
               })}
             >
-              <SearchInput handleSearch={handleSearch} referral={searchInput}/>
-
+              <SearchInput handleSearch={handleSearch} referral={searchInput} />
             </div>
 
             {isSearchResult && (
               <div className="">
-                <SearchResultsList autoCompleteResults={autoCompleteResults} handleSelectCountry={handleSelectCountry} theme={theme} />
+                <SearchResultsList
+                  autoCompleteResults={autoCompleteResults}
+                  handleSelectCountry={handleSelectCountry}
+                  theme={theme}
+                />
               </div>
             )}
           </div>
@@ -175,13 +223,14 @@ const HomePage = () => {
         {isFetched && (
           <div className="h-fit col-span-1 ml-2">
             <CurrentForecast
+            isLoading={isLoading}
               header={
                 currentCountryName !== "" ? currentCountryName : "Tel Aviv"
               }
               currentForecast={
                 currentLocationResults
                   ? currentLocationResults[0]
-                  : currentTlvForecast[0]
+                  : currentForecast[0]
               }
             />
             <br />
@@ -198,6 +247,7 @@ const HomePage = () => {
         {isFetched && (
           <div className="col-span-1 mt-10 md:col-span-2 lg:col-span-3">
             <ForecastList
+            isLoading={isLoading}
               forecasts={
                 currentLocationFiveDayResults
                   ? currentLocationFiveDayResults

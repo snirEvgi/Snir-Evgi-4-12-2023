@@ -33,6 +33,7 @@ function App() {
     },
   ]
   const theme = localStorage.getItem("theme")
+  if (!theme) localStorage.setItem("theme","light")
   const theme2 = useAppSelector((state) => state.theme.theme) ||theme
 
   return (

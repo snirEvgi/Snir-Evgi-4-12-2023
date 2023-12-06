@@ -6,17 +6,18 @@ import { useAppSelector } from '../../hooks';
 import classNames from 'classnames';
 import Swal from 'sweetalert2';
 import { daysOfWeek } from '../../pages/FavoritePage';
+import Loader from '../Loader';
 
 interface CurrentForecastProps {
   currentForecast: any | {};
   header?: string;
-  
+  isLoading:boolean
 }
 
 
 const MAX_LIKED = 5;
 
-const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
+const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastProps) => {
   const theme = localStorage.getItem("theme")
   const [favoriteList, setFavoriteList] = useState<any[]>(
     JSON.parse(localStorage.getItem('likedPlaces') as string) || []);
@@ -82,6 +83,7 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
   return (
     <div className="max-w-sm flex items-center justify-center">
       <Toast ref={toast} />
+      {isLoading && <Loader />}
 
       <div className={classNames({
         " shadow-lg rounded-lg font-bold  overflow-hidden w-full":true,
@@ -93,15 +95,15 @@ const CurrentForecast = ({ currentForecast, header }: CurrentForecastProps) => {
         <div className="px-4 py-5 sm:p-6">
           <div className="flex items-center justify-between">
             <h3 className="text-2xl font-bold text-black">
-              {header} Forecast
+              {header} - Today
             </h3>
             <div className="flex items-center space-x-2">
           
               <button
-                className={`text-2xl transition-colors text-red-500`}
+                className={`text-2xl  hover:bg-gray-500 p-3 rounded-full transition-colors text-red-500 font-bold hover:text-slate-50`}
                 onClick={()=>handleToggleLike(currentForecast)}
               >
-           {!isShown   ?  <FaHeart className={`cursor-pointer opacity-100  text-red-500`} /> : <IoHeartDislike className={`cursor-pointer `} />}
+           {!isShown   ?  <FaHeart className={`cursor-pointer opacity-100 `} /> : <IoHeartDislike className={`cursor-pointer `} />}
               </button>
             </div>
           </div>

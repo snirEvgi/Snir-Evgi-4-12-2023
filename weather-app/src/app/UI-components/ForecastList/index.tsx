@@ -5,10 +5,11 @@ import classNames from "classnames";
 import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb"
 import {  FaTemperatureLow } from "react-icons/fa"
 import { daysOfWeek } from "../../pages/FavoritePage";
+import Loader from "../Loader";
 
 
 
-const ForecastList = (props: { forecasts: Array<any> }) => {
+const ForecastList = (props: { forecasts: Array<any>,isLoading:boolean }) => {
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
   const [maxTemp, setMaxTemp] = useState<number>(0)
   const [minTemp, setMinTemp] = useState<number>(0)
@@ -41,32 +42,42 @@ const ForecastList = (props: { forecasts: Array<any> }) => {
 
   return (
     <div className="p-4 py-4 mb-20">
+      {props.isLoading && <Loader />}
+
     <h2 className="text-2xl mt-2 font-semibold mb-4">Daily Forecasts</h2>
-    <div className="flex gap-6 overflow-x-auto py-2">
+    <div className="flex gap-6  overflow-x-auto py-2">
       {fiveDayForecast.map((forecast: any, index: number) => (
         <div
           key={index}
           className={classNames({
-            "flex-none w-[20rem] shadow bg-none rounded-lg font-bold m-2 p-4 transition-transform transform": true,
+            "flex-none w-[20rem]  shadow bg-none rounded-lg font-bold m-2 p-4 transition-transform transform": true,
             "opacity-70 bg-white": theme === "light",
             "bg-gray-500 opacity-90": theme === "dark",
           })}
         >
-          <div className="flex justify-between items-center">
+          <div className="flex max-h-[2rem]  justify-between items-center">
             <h3 className="font-semibold">
               {daysOfWeek[new Date(forecast.Date).getDay()]}
             </h3>
             {isOnFahrenheit ? (
               <button
                 onClick={() => handleTemperatureIndicatorSelect(forecast)}
-                className="text-3xl text-white font-bold transition-colors"
+                className={classNames({
+                  "text-2xl rounded-full mt-1 duration-300 ease-in p-2 min-h-[2rem] transition-colors":true,
+                  "  hover:text-gray-800 text-white hover:bg-gray-300":theme === "dark",
+                  "  hover:text-gray-200 text-black hover:bg-gray-800":theme === "light",
+              })}
               >
                 <TbTemperatureCelsius className="mt-1 cursor-pointer" />
               </button>
             ) : (
               <button
                 onClick={() => handleTemperatureIndicatorSelect(forecast)}
-                className="text-3xl text-white p-2 hover:bg-slate-50 rounded-full hover:text-black font-bold transition-colors duration-300 ease-in"
+                className={classNames({
+                  "text-2xl rounded-full mt-1 duration-300 ease-in p-2 min-h-[2rem] transition-colors":true,
+                  "  hover:text-gray-800 text-white hover:bg-gray-300":theme === "dark",
+                  "  hover:text-gray-200 text-black hover:bg-gray-800":theme === "light",
+              })}
               >
                 <TbTemperatureFahrenheit className="mt-1 cursor-pointer" />
               </button>

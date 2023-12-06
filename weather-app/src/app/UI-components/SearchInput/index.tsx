@@ -3,7 +3,7 @@ import React from 'react'
 import { IoSearch } from "react-icons/io5"
 
 const SearchInput = (props:{ referral:any,handleSearch:any}) => {
-  const theme = localStorage.getItem("theme")
+  const theme = localStorage.getItem("theme")||"light"
 
   return (
     <div className="flex w-full">
