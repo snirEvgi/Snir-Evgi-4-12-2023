@@ -13,13 +13,14 @@ import classnames from "classnames"
 
 import ForecastList from "../../UI-components/ForecastList"
 import CurrentForecast from "../../UI-components/CurrentForecast"
-import DataVisual from "../../UI-components/DataVisualisation"
 import classNames from "classnames"
 import Loader from "../../UI-components/Loader"
 import SearchInput from "../../UI-components/SearchInput"
 import SearchResultsList from "../../UI-components/SearchResultList"
+import DataVisualHome from "../../UI-components/DataVisualizationHome"
 
 const HomePage = () => {
+ 
   const searchInput = useRef<HTMLInputElement|null>(null)
   const toast = useRef<Toast | null>(null)
   const [isSearchResult, setIsSearchResult] = useState<boolean>(false)
@@ -184,7 +185,7 @@ const HomePage = () => {
               }
             />
             <br />
-            <DataVisual
+            <DataVisualHome
               forecasts={
                 currentLocationFiveDayResults
                   ? currentLocationFiveDayResults

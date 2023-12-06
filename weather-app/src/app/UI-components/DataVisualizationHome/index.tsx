@@ -4,17 +4,10 @@ import "chart.js/auto"
 import { useState } from "react"
 import { useAppSelector } from "../../hooks"
 import classNames from "classnames"
+import { daysOfWeek } from "../../pages/FavoritePage"
 
-const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ]
-const DataVisual = (props: { forecasts: Array<any> }) => {
+
+const DataVisualHome = (props: { forecasts: Array<any> }) => {
     const [fiveDayForecast, setFiveDayForecast] = useState(
         (props.forecasts as any)?.DailyForecasts,
       )
@@ -83,6 +76,6 @@ const data = {
   )
 }
 
-export default DataVisual
+export default DataVisualHome
 
 
