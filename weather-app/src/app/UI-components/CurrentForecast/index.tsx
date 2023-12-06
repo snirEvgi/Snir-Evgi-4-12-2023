@@ -81,7 +81,7 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
   }, [favoriteList, currentForecast]);
 
   return (
-    <div className="max-w-sm flex min-w-[345px]   items-center justify-center">
+    <div className="max-w-sm flex min-w-[345px] overflow-x-scroll items-center justify-center">
       <Toast ref={toast} />
       {isLoading && <Loader />}
 

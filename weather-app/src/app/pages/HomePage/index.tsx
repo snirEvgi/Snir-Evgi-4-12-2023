@@ -190,7 +190,7 @@ const HomePage = () => {
   return (
     <div
       className={classnames({
-        "container mx-auto  max-h-screen p-4": true,
+        "container -mx-6 md:mx-auto lg:mx-auto xl:mx-auto  max-h-screen p-4": true,
       })}
     >
       <Toast ref={toast} />
