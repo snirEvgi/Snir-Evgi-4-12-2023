@@ -26,8 +26,10 @@ const HomePage = () => {
   const [currentForecast, setCurrentForecast] = useState<any>({})
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFetched, setIsFetched] = useState<boolean>(false)
-  const [lat, setLat] = useState<string>("")
-  const [lon, setLon] = useState<string>("")
+  const [isGeoApproved, setIsGeoApproved] = useState<boolean>(false)
+  const [lat, setLat] = useState<number>(0)
+  const [geoLoc, setLocation] = useState<any>({})
+  
   const [currentCountryName, setCountryName] = useState<string>("")
   
   const dispatch = useAppDispatch()
@@ -51,6 +53,7 @@ const HomePage = () => {
   const theme = localStorage.getItem("theme")
   console.log(currenGeoLocationResults, currentForecast, "daslkjdjsahdjsa")
   const fetchTlvDataHandler = async () => {
+    if (isGeoApproved) return
     try {
       const telAvivData = await fetchTelAvivData()
       setFiveDayTlvForecast(telAvivData.fiveDayTlvForecast)
@@ -67,13 +70,9 @@ const HomePage = () => {
     }
   }
 
+  const fetchGeoLocationDataHandler = async (location:any) => {
+    if (!isGeoApproved) return
 
-  const successHandler = async (location: any) => {
-    console.log(location)
-    setLat(location.coords.latitude)
-    setLon(location.coords.longitude)
-    
-   
     try {
       const response:any = await dispatch(
         fetchCurrentForecastWithGeoLocation({ lat: location.coords.latitude, lang: location.coords.longitude }),
@@ -96,11 +95,22 @@ const HomePage = () => {
       setIsLoading(false)
 
     }
+  }
+  
+
+  const successHandler = async (location: any) => {
+    console.log(location)
+    // setLat(location.coords.latitude)
+    // setLon(location.coords.longitude)
+    setLocation(location)
+    setIsGeoApproved(true)
+  
   
   }
   const errorHandler = (error: any) => {
     console.log(error)
-    fetchTlvDataHandler()
+setIsGeoApproved(false)
+    
   }
 
   useEffect(() => {
@@ -108,7 +118,17 @@ const HomePage = () => {
       successHandler,
       errorHandler,
     )
+ 
   }, [])
+ useEffect(()=>{
+     
+if (!isGeoApproved) {
+  fetchTlvDataHandler()
+}else{
+  fetchGeoLocationDataHandler(geoLoc)
+
+}
+ },[isGeoApproved])
 
   const handleSelectCountry = async (result: any) => {
     try {
@@ -232,7 +252,7 @@ const HomePage = () => {
               currentForecast={
                 currentLocationResults
                   ? currentLocationResults[0]
-                  : currentForecast[0]
+                  : currentForecast[0] 
               }
             />
             <br />
