@@ -6,8 +6,8 @@ export async function fetchTelAvivData() {
 const apiKey = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"
 const apiKey4= "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"
 const apiKey2 = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"
-    const basedLocationKeySearchFiveDayForecast = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${apiKey}`
-    const basedLocationKeySearchCurrentForecast = `http://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${apiKey}`
+    const basedLocationKeySearchFiveDayForecast = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${apiKey}`
+    const basedLocationKeySearchCurrentForecast = `https://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${apiKey}`
   try {
     const result1 = await axios.get(basedLocationKeySearchCurrentForecast)
     const result2 = await axios.get(basedLocationKeySearchFiveDayForecast)

@@ -30,7 +30,7 @@ const initialState: IAutoCompleteResult & IForecastResult = {
 export const searchAutoComplete = createAsyncThunk(
   "weather/searchAutoComplete",
   async (searchValue: string) => {
-    const searchAutoCompleteURL = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${searchValue}`
+    const searchAutoCompleteURL = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${searchValue}`
     try {
       const result = await axios.get(searchAutoCompleteURL)
       return result.data
@@ -44,7 +44,7 @@ export const searchAutoComplete = createAsyncThunk(
 export const fetchFiveDayForecast = createAsyncThunk(
   "weather/fetchFiveDayForecast",
   async (locationKey: string) => {
-    const fiveDayForecastURL = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}`
+    const fiveDayForecastURL = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}`
     try {
       const result = await axios.get(fiveDayForecastURL)
       return result.data
@@ -58,7 +58,7 @@ export const fetchFiveDayForecast = createAsyncThunk(
 export const fetchCurrentForecast = createAsyncThunk(
   "weather/fetchCurrentForecast",
   async (locationKey: string) => {
-    const currentForecastURL = `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`
+    const currentForecastURL = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`
     try {
       const result = await axios.get(currentForecastURL)
       return result.data
@@ -72,17 +72,17 @@ export const fetchCurrentForecast = createAsyncThunk(
 export const fetchCurrentForecastWithGeoLocation = createAsyncThunk(
   "weather/geoLocation",
   async ({ lat, lang }: any) => {
-    const geoSearch = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lang}`
+    const geoSearch = `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lang}`
 
     try {
       const result = await axios.get(geoSearch)
       console.log(result.data , "asjasaaaaaaaaaaa");
       
       const key = result.data.Key
-      const currentForecastURL = `http://dataservice.accuweather.com/currentconditions/v1/${key}?apikey=${apiKey}`
+      const currentForecastURL = `https://dataservice.accuweather.com/currentconditions/v1/${key}?apikey=${apiKey}`
       const result2 = await axios.get(currentForecastURL)
       console.log(result,"position?.cords.longitude",result2 , "assa");
-    const basedLocationKeySearchFiveDayForecast = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${key}?apikey=${apiKey}`
+    const basedLocationKeySearchFiveDayForecast = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${key}?apikey=${apiKey}`
       const result3 = await axios.get(basedLocationKeySearchFiveDayForecast)
       return  {geoLocation:result.data, fiveDayGeoForecast: result3.data, currentGeoForecast:result2.data}
     } catch (error) {
