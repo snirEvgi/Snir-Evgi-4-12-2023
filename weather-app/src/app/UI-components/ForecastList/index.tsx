@@ -9,7 +9,7 @@ import Loader from "../Loader";
 
 
 
-const ForecastList = (props: { forecasts: Array<any>,isLoading:boolean }) => {
+const ForecastList = (props: { header?:string, forecasts: Array<any> }) => {
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
   const [maxTemp, setMaxTemp] = useState<number>(0)
   const [minTemp, setMinTemp] = useState<number>(0)
@@ -42,9 +42,9 @@ const ForecastList = (props: { forecasts: Array<any>,isLoading:boolean }) => {
 
   return (
     <div className="p-4 py-4 mb-20">
-      {props.isLoading && <Loader />}
+      
 
-    <h2 className="text-2xl mt-2 font-semibold mb-4">Daily Forecasts</h2>
+    <h2 className="text-2xl mt-2 font-semibold mb-4">{props.header?props.header:"Daily Forecasts"}</h2>
     <div className="flex gap-6  overflow-x-auto py-2">
       {fiveDayForecast.map((forecast: any, index: number) => (
         <div

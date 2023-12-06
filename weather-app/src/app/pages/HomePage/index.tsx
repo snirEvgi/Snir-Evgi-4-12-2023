@@ -29,7 +29,9 @@ const HomePage = () => {
   const [lat, setLat] = useState<string>("")
   const [lon, setLon] = useState<string>("")
   const [currentCountryName, setCountryName] = useState<string>("")
+  
   const dispatch = useAppDispatch()
+
   const searchSchema = z.object({
     text: z.string().min(1),
   })
@@ -247,7 +249,7 @@ const HomePage = () => {
         {isFetched && (
           <div className="col-span-1 mt-10 md:col-span-2 lg:col-span-3">
             <ForecastList
-            isLoading={isLoading}
+
               forecasts={
                 currentLocationFiveDayResults
                   ? currentLocationFiveDayResults

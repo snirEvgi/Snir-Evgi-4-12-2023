@@ -4,10 +4,11 @@ import { IoHeartDislike, IoSunnyOutline } from "react-icons/io5"
 import { FaRegMoon, FaTemperatureLow } from "react-icons/fa"
 import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb"
 import classnames from "classnames"
-import { useAppSelector } from "../../hooks"
-import DataVisualFavorites from "../../UI-components/DataVisualalizationFavorites"
+import { useAppDispatch, useAppSelector } from "../../hooks"
 import Swal from "sweetalert2"
 import classNames from "classnames"
+import ForecastList from "../../UI-components/ForecastList"
+import { fetchFiveDayForecast } from "../HomePage/weatherSlice"
 
 export const daysOfWeek = [
   "Sunday",
@@ -145,10 +146,43 @@ const FavoritePage = () => {
     //   },
     // ],
   )
-  const toast = useRef<Toast | null>(null)
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
+  const [isForecastOn, setIsForecastOn] = useState<boolean>(false)
+  const [currentFavoriteName, setCurrentFavoriteName] = useState<string>("")
+  const [favoriteFiveDayForecast, setFavoriteFiveDayForecast] = useState<Array<any>>([])
+  const toast = useRef<Toast | null>(null)
   const currentTheme = useAppSelector((state) => state.theme.theme) || "light"
   const theme = localStorage.getItem("theme")
+const dispatch = useAppDispatch()
+
+
+  const getNumberFromUrl = (url:string)=>{
+    // regex to check the link for the number
+  const match = url.match(/\/(\d+)\/current-weather/);
+  // Check if there is a match
+  if (match && match[1]) {
+    const extractedNumber = match[1];
+    return extractedNumber
+  } 
+  return
+}
+const handleSetFiveDayForecast = async (place:any)=>{
+  const number =   getNumberFromUrl(place?.MobileLink)
+  const key = number?.toString()
+  setCurrentFavoriteName(place.LocalizedName)
+  try {
+      const response = await dispatch(fetchFiveDayForecast(key as string))
+      console.log(response);
+      setFavoriteFiveDayForecast(response.payload)
+      console.log(favoriteFiveDayForecast, "Favvv");
+      setIsForecastOn(!isForecastOn)
+  } catch (error) {
+    console.log(error);
+    
+  }
+    
+
+}
   const handleRemoveLike = (place: any) => {
     const placeIdentifier = place.MobileLink
     return Swal.fire({
@@ -273,19 +307,31 @@ const FavoritePage = () => {
                 </div>
               </div>
               <br />
-              <a
+              {/* <a
                 href={place.Link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:text-blue-700 transition-colors"
               >
                 View Details
-              </a>
+              </a> */}
+              <span
+                onClick={ ()=>handleSetFiveDayForecast(place)}
+              
+                className="text-blue-500 hover:text-blue-700 transition-colors"
+              >
+                View Details
+              </span>
             </div>
           </div>
         ))}
       </div>
-      {/* <DataVisualFavorites/> */}
+      <div className="mt-10">
+      {isForecastOn&&
+
+        <ForecastList header={`${currentFavoriteName} Daily Forecasts`} forecasts={favoriteFiveDayForecast} />
+      }
+      </div>
     </div>
   )
 }

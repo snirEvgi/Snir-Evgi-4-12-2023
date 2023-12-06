@@ -1,7 +1,7 @@
 
 import { Bar } from "react-chartjs-2"
 import "chart.js/auto"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useAppSelector } from "../../hooks"
 import classNames from "classnames"
 import { daysOfWeek } from "../../pages/FavoritePage"
@@ -11,6 +11,8 @@ const DataVisualHome = (props: { forecasts: Array<any> }) => {
     const [fiveDayForecast, setFiveDayForecast] = useState(
         (props.forecasts as any)?.DailyForecasts,
       )
+
+     
       const theme = localStorage.getItem("theme")
 const data = {
     labels: fiveDayForecast.map(
