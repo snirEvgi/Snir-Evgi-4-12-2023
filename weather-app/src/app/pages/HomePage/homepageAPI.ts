@@ -3,9 +3,9 @@ import axios from "axios"
 
 export async function fetchTelAvivData() {
   const apiKey3 = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"//done
-const apiKey = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"
-const apiKey4= "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"
-const apiKey2 = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"
+const apiKey4 = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"//done
+const apiKey2= "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"//done
+const apiKey = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"
     const basedLocationKeySearchFiveDayForecast = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${apiKey}`
     const basedLocationKeySearchCurrentForecast = `https://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${apiKey}`
   try {

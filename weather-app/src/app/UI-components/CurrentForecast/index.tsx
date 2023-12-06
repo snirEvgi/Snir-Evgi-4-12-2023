@@ -81,12 +81,12 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
   }, [favoriteList, currentForecast]);
 
   return (
-    <div className="max-w-sm flex min-w-[345px] items-center justify-center">
+    <div className="max-w-sm flex min-w-[345px]   items-center justify-center">
       <Toast ref={toast} />
       {isLoading && <Loader />}
 
       <div className={classNames({
-        " shadow-lg rounded-lg font-bold  overflow-hidden w-full":true,
+        " shadow-lg rounded-lg font-bold duration-300 ease-in  transition-colors  overflow-hidden w-full":true,
         "bg-white opacity-70 text-black": theme ==="light",
         "bg-gray-500 opacity-90 text-white": theme ==="dark"
 
@@ -100,7 +100,7 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
             <div className="flex items-center space-x-2">
           
               <button
-                className={`text-2xl  hover:bg-gray-500 p-3 rounded-full transition-colors text-red-500 font-bold hover:text-slate-50`}
+                className={`text-2xl  hover:bg-gray-500 p-3 rounded-full  text-red-500 font-bold hover:text-slate-50`}
                 onClick={()=>handleToggleLike(currentForecast)}
               >
            {!isShown   ?  <FaHeart className={`cursor-pointer opacity-100 `} /> : <IoHeartDislike className={`cursor-pointer `} />}

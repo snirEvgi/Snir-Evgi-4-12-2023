@@ -22,136 +22,12 @@ export const daysOfWeek = [
 
 const FavoritePage = () => {
   const [favoriteList, setFavoriteList] = useState<any[]>(
-    JSON.parse(localStorage.getItem('likedPlaces') as string) ||[]
-    // [
-    //   {
-    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-    //     EpochTime: 1701691800,
-    //     WeatherText: "Mostly cloudy",
-    //     WeatherIcon: 6,
-    //     HasPrecipitation: false,
-    //     PrecipitationType: null,
-    //     IsDayTime: true,
-    //     Temperature: {
-    //       Metric: {
-    //         Value: 21.6,
-    //         Unit: "C",
-    //         UnitType: 17,
-    //       },
-    //       Imperial: {
-    //         Value: 71,
-    //         Unit: "F",
-    //         UnitType: 18,
-    //       },
-    //     },
-    //     MobileLink:
-    //       "http://www.accuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-    //     Link: "http://www.accuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-    //   },
-    //   {
-    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-    //     EpochTime: 1701691800,
-    //     WeatherText: "Mostly cloudy",
-    //     WeatherIcon: 6,
-    //     HasPrecipitation: false,
-    //     PrecipitationType: null,
-    //     IsDayTime: true,
-    //     Temperature: {
-    //       Metric: {
-    //         Value: 21.6,
-    //         Unit: "C",
-    //         UnitType: 17,
-    //       },
-    //       Imperial: {
-    //         Value: 71,
-    //         Unit: "F",
-    //         UnitType: 18,
-    //       },
-    //     },
-    //     MobileLink:
-    //       "httap://www.aaccuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-    //     Link: "htatp://waww.accuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-    //   },
-    //   {
-    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-    //     EpochTime: 1701691800,
-    //     WeatherText: "Mostly cloudy",
-    //     WeatherIcon: 6,
-    //     HasPrecipitation: false,
-    //     PrecipitationType: null,
-    //     IsDayTime: true,
-    //     Temperature: {
-    //       Metric: {
-    //         Value: 21.6,
-    //         Unit: "C",
-    //         UnitType: 17,
-    //       },
-    //       Imperial: {
-    //         Value: 71,
-    //         Unit: "F",
-    //         UnitType: 18,
-    //       },
-    //     },
-    //     MobileLink:
-    //       "http://www.accuwaeather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-    //     Link: "http://www.acacuweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-    //   },
-    //   {
-    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-    //     EpochTime: 1701691800,
-    //     WeatherText: "Mostly cloudy",
-    //     WeatherIcon: 6,
-    //     HasPrecipitation: false,
-    //     PrecipitationType: null,
-    //     IsDayTime: true,
-    //     Temperature: {
-    //       Metric: {
-    //         Value: 21.6,
-    //         Unit: "C",
-    //         UnitType: 17,
-    //       },
-    //       Imperial: {
-    //         Value: 71,
-    //         Unit: "F",
-    //         UnitType: 18,
-    //       },
-    //     },
-    //     MobileLink:
-    //       "http://www.accuweasather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-    //     Link: "http://www.accsauweather.com/en/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-    //   },
-    //   {
-    //     LocalObservationDateTime: "2023-12-04T07:10:00-05:00",
-    //     EpochTime: 1701691800,
-    //     WeatherText: "Mostly cloudy",
-    //     WeatherIcon: 6,
-    //     HasPrecipitation: false,
-    //     PrecipitationType: null,
-    //     IsDayTime: false,
-    //     Temperature: {
-    //       Metric: {
-    //         Value: 21.6,
-    //         Unit: "C",
-    //         UnitType: 17,
-    //       },
-    //       Imperial: {
-    //         Value: 71,
-    //         Unit: "F",
-    //         UnitType: 18,
-    //       },
-    //     },
-    //     MobileLink:
-    //       "http://www.accuweather.com/en/ec/slos-angeles/1239134/current-weather/1239134?lang=en-us",
-    //     Link: "http://www.accuweather.com/ens/ec/los-angeles/1239134/current-weather/1239134?lang=en-us",
-    //   },
-    // ],
-  )
+    JSON.parse(localStorage.getItem('likedPlaces') as string) ||[])
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
   const [isForecastOn, setIsForecastOn] = useState<boolean>(false)
   const [currentFavoriteName, setCurrentFavoriteName] = useState<string>("")
   const [favoriteFiveDayForecast, setFavoriteFiveDayForecast] = useState<Array<any>>([])
   const toast = useRef<Toast | null>(null)
-  const currentTheme = useAppSelector((state) => state.theme.theme) || "light"
   const theme = localStorage.getItem("theme")
 const dispatch = useAppDispatch()
 
@@ -159,7 +35,7 @@ const dispatch = useAppDispatch()
   const getNumberFromUrl = (url:string)=>{
     // regex to check the link for the number
   const match = url.match(/\/(\d+)\/current-weather/);
-  // Check if there is a match
+  // check if there is a match
   if (match && match[1]) {
     const extractedNumber = match[1];
     return extractedNumber
@@ -172,9 +48,7 @@ const handleSetFiveDayForecast = async (place:any)=>{
   setCurrentFavoriteName(place.LocalizedName)
   try {
       const response = await dispatch(fetchFiveDayForecast(key as string))
-      console.log(response);
       setFavoriteFiveDayForecast(response.payload)
-      console.log(favoriteFiveDayForecast, "Favvv");
       setIsForecastOn(!isForecastOn)
   } catch (error) {
     console.log(error);
@@ -217,7 +91,7 @@ const handleSetFiveDayForecast = async (place:any)=>{
   return (
     <div
       className={classnames({
-        "max-w-screen min-h-screen bg-none mx-auto p-4": true,
+        "max-w-screen min-h-screen duration-300 ease-in  transition-colors bg-none mx-auto p-4": true,
         "text-white": theme === "dark",
       })}
     >
@@ -245,7 +119,7 @@ const handleSetFiveDayForecast = async (place:any)=>{
                   <button
                     onClick={() => handleTemperatureIndicatorSelect()}
                     className={classNames({
-                        "text-2xl rounded-full mt-1 duration-300 ease-in p-2 min-h-[2rem] transition-colors":true,
+                        "text-2xl rounded-full mt-1  p-2 min-h-[2rem] ":true,
                         "  hover:text-gray-800  hover:bg-gray-300":theme === "dark",
                         "  hover:text-gray-200  hover:bg-gray-800":theme === "light",
                     })}
@@ -256,7 +130,7 @@ const handleSetFiveDayForecast = async (place:any)=>{
                   <button
                     onClick={() => handleTemperatureIndicatorSelect()}
                     className={classNames({
-                        "text-2xl rounded-full mt-1 duration-300 ease-in p-2 min-h-[2rem] transition-colors":true,
+                        "text-2xl rounded-full mt-1  p-2 min-h-[2rem] ":true,
                         "  hover:text-gray-800  hover:bg-gray-300":theme === "dark",
                         "  hover:text-gray-200  hover:bg-gray-800":theme === "light",
                     })}
@@ -267,7 +141,7 @@ const handleSetFiveDayForecast = async (place:any)=>{
                 <button
                   onClick={() => handleRemoveLike(place)}
                   className={classNames(
-                    {"text-2xl rounded-full mt-2 duration-300 ease-in  p-2 min-h-[2rem] transition-colors":true,
+                    {"text-2xl rounded-full mt-2  p-2 min-h-[2rem] ":true,
                   "  hover:text-gray-800  hover:bg-gray-300":theme === "dark",
                   "  hover:text-gray-200  hover:bg-gray-800":theme === "light",
                 })}
@@ -291,14 +165,14 @@ const handleSetFiveDayForecast = async (place:any)=>{
                     )}
                   </span>
 
-                  <span className="text-lg mt-3 my-2 ">
+                  <span className="text-lg min-w-full mt-3 my-2 ">
                     {!isOnFahrenheit ? (
-                      <span className="flex items-center justify-between min-w-[5rem] gap-2">
+                      <span className="flex gap-7 items-center justify-start min-w-[5rem]">
                         {place.Temperature.Imperial.Value} °F{" "}
                           <FaTemperatureLow size={22} />{" "}
                       </span>
                     ) : (
-                      <span className="flex gap-2 justify-between min-w-[5rem items-center">
+                      <span className="flex gap-x-7 justify-start min-w-[5rem items-center">
                         {" "}
                         {place.Temperature.Metric.Value}°C <FaTemperatureLow size={22} />{" "}
                       </span>
@@ -307,18 +181,10 @@ const handleSetFiveDayForecast = async (place:any)=>{
                 </div>
               </div>
               <br />
-              {/* <a
-                href={place.Link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-700 transition-colors"
-              >
-                View Details
-              </a> */}
               <span
                 onClick={ ()=>handleSetFiveDayForecast(place)}
               
-                className="text-blue-500 hover:text-blue-700 transition-colors"
+                className="text-blue-500 hover:text-blue-700 "
               >
                 View Details
               </span>

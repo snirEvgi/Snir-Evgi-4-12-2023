@@ -165,7 +165,7 @@ setIsGeoApproved(false)
         setIsSearchResult(true)
         searchInput.current.value = ""
         console.log(response, " searchInput.current.value = ")
-        if (response.payload.length < 0) {
+        if (response.payload.length) {
           toast.current?.show({
             severity: "warn",
             summary: "Nothing found",
@@ -197,7 +197,7 @@ setIsGeoApproved(false)
   return (
     <div
       className={classnames({
-        "container mx-auto max-h-screen p-4": true,
+        "container mx-auto  max-h-screen p-4": true,
       })}
     >
       <Toast ref={toast} />
@@ -239,7 +239,7 @@ setIsGeoApproved(false)
         </div>
 
         {isFetched && (
-          <div className="h-fit col-span-1 ml-2">
+          <div className="h-fit   col-span-1 ml-2">
             <CurrentForecast
             isLoading={isLoading}
               header={

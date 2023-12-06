@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
 
-const apiKey = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"
+const apiKey4 = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"//done
 const apiKey2 = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"//done
-const apiKey3   = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"
-const apiKey4 = "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"
+const apiKey3 = "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"//done
+const apiKey   = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"
 
 interface IAutoCompleteResult {
   autoCompleteResults: any[] | null
