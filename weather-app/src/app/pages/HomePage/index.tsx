@@ -104,7 +104,7 @@ const HomePage = () => {
     // setIsGeoApproved(true)
 
       // what to do if supported
-      fetchGeoLocationDataHandler(location)
+      // fetchGeoLocationDataHandler(location)
 
 
   }
@@ -113,7 +113,6 @@ const HomePage = () => {
   
   const errorHandler = (error: any) => {
     console.log(error)
-    fetchTlvDataHandler()
     // setIsGeoApproved(false)
     
   }
@@ -123,6 +122,7 @@ const HomePage = () => {
       successHandler,
       errorHandler,
     )
+    fetchTlvDataHandler()
    
   }, [])
 
