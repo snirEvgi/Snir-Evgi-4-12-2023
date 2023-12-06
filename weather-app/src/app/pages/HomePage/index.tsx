@@ -96,32 +96,32 @@ const HomePage = () => {
   }
   
 
-  const successHandler = async (location: any) => {
+  // const successHandler = async (location: any) => {
     // console.log(location)
     // // setLat(location.coords.latitude)
     // // setLon(location.coords.longitude)
-    setLocation(location)
+    // setLocation(location)
     // setIsGeoApproved(true)
 
       // what to do if supported
       // fetchGeoLocationDataHandler(location)
 
 
-  }
+  // }
 
 
   
-  const errorHandler = (error: any) => {
-    console.log(error)
+  // const errorHandler = (error: any) => {
+    // console.log(error)
     // setIsGeoApproved(false)
     
-  }
+  // }
 
   useEffect(() => {
-    const geoLocation = navigator.geolocation.getCurrentPosition(
-      successHandler,
-      errorHandler,
-    )
+    // const geoLocation = navigator.geolocation.getCurrentPosition(
+    //   successHandler,
+    //   errorHandler,
+    // )
     fetchTlvDataHandler()
    
   }, [])
