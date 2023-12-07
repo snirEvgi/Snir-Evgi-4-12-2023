@@ -48,10 +48,22 @@ const handleSetFiveDayForecast = async (place:any)=>{
   setCurrentFavoriteName(place.LocalizedName)
   try {
       const response = await dispatch(fetchFiveDayForecast(key as string))
-      setFavoriteFiveDayForecast(response.payload)
-      setIsForecastOn(!isForecastOn)
+      if (fetchFiveDayForecast.fulfilled.match(response)) {
+          setFavoriteFiveDayForecast(response.payload)
+          setIsForecastOn(!isForecastOn)
+
+
+      }else{
+        toast.current?.show({
+            severity: "error",
+            summary: "Unexpected issue  ",
+            detail: "Issue found. Please contact admin.",
+          })
+      }
+      
   } catch (error) {
-    console.log(error);
+console.log(error);
+   
     
   }
     
@@ -193,7 +205,7 @@ const handleSetFiveDayForecast = async (place:any)=>{
         ))}
       </div>
       <div className="mt-10">
-      {isForecastOn&&
+      {isForecastOn && favoriteFiveDayForecast &&
 
         <ForecastList header={`${currentFavoriteName} Daily Forecasts`} forecasts={favoriteFiveDayForecast} />
       }

@@ -13,7 +13,7 @@ const SearchResultItem = ({ result, theme, handleSelectCountry }:any) => {
       })}
     >
       <div className="flex items-center justify-between">
-        <div className="hover:bg-gray-100">
+        <div className="">
           <p className="font-bold">{result.LocalizedName}</p>
           <p className="text-sm">
             <span className="font-semibold">Country:</span>{' '}

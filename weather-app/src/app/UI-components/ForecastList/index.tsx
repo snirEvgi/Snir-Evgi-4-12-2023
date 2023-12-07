@@ -41,7 +41,7 @@ const ForecastList = (props: { header?:string, forecasts: Array<any> }) => {
  
 
   return (
-    <div className="p-4  min-w-[360px] duration-300 ease-in  transition-colors  py-4 mb-20">
+    <div className="p-2   min-w-[360px] duration-300 ease-in  transition-colors  ">
       
 
     <h2 className="text-2xl mt-2 font-semibold mb-4">{props.header?props.header:"Daily Forecasts"}</h2>

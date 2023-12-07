@@ -26,6 +26,7 @@ const HomePage = () => {
   const [currentForecast, setCurrentForecast] = useState<any>({})
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFetched, setIsFetched] = useState<boolean>(false)
+  const divRef = useRef<null|any>(null);
   
   const [currentCountryName, setCountryName] = useState<string>("")
 
@@ -48,7 +49,6 @@ const HomePage = () => {
     (state) => state.weather.fiveDayForecast,
   )
   const theme = localStorage.getItem("theme")
-  console.log(currenGeoLocationResults, currentForecast, "daslkjdjsahdjsa")
 
 
   const fetchTlvDataHandler = async () => {
@@ -108,6 +108,7 @@ const HomePage = () => {
     
   }
 
+  
   useEffect(() => {
     const geoLocation = navigator.geolocation.getCurrentPosition(
       successHandler,
@@ -137,10 +138,10 @@ const HomePage = () => {
 
     }
   }
-  const handleSearch = async () => {
+  const handleSearch = async (textInputValue:string) => {
     if (
-      !searchInput.current?.value ||
-      searchInput.current?.value.trim() === ""
+      !textInputValue ||
+      textInputValue.trim() === ""
     ) {
       return
     }
@@ -148,50 +149,47 @@ const HomePage = () => {
       setIsLoading(true)
 
       // Validate using zod schema
-      searchSchema.parse({ text: searchInput.current?.value })
+      searchSchema.parse({ text: textInputValue })
 
       const response = await dispatch(
-        searchAutoComplete(searchInput.current.value),
+        searchAutoComplete(textInputValue),
       )
 
       if (searchAutoComplete.fulfilled.match(response)) {
+
         setIsSearchResult(true)
-        searchInput.current.value = ""
-        console.log(response, " searchInput.current.value = ")
-        if (response.payload.length) {
+      }
+
+        if (response.payload.length &&response.payload.length<0 ) {
           toast.current?.show({
             severity: "warn",
             summary: "Nothing found",
             detail: "Search something else nothing found.",
           })
-        }
-      } else {
-        toast.current?.show({
-          severity: "error",
-          summary: "Search failed",
-          detail: "Search failed. Please try again.",
-        })
-        console.error("Search failed:", response.payload)
-      }
+        }else if (response.payload.length === 0 || !response.payload.length) {
+          toast.current?.show({
+            severity: "warn",
+            summary: "Not Found",
+            detail: "Not Found. Please search someplace else.",
+          })
+      } 
+
     } catch (error) {
       toast.current?.show({
         severity: "error",
-        summary: "Search failed",
-        detail: "Search failed. Please try again.",
+        summary: "Unexpected issue ",
+        detail: "Issue found. Please contact admin.",
       })
       setIsSearchResult(false)
-
-      console.error("Search failed:", error)
     } finally {
       setIsLoading(false)
     }
   }
-
   return (
     <div
-      className={classnames({
-        "container -mx-6 md:mx-auto lg:mx-auto xl:mx-auto  max-h-screen p-4": true,
-      })}
+    className={classnames({
+      "container -mx-6 md:mx-auto lg:mx-auto xl:mx-auto flex items-center justify-center  max-h-screen p-4": true,
+    })}
     >
       <Toast ref={toast} />
       {isLoading && <Loader />}
@@ -200,32 +198,37 @@ const HomePage = () => {
         className={classnames({
           "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4": true,
         })}
-      >
+        >
         <div className="col-span-1 md:col-span-2">
           <div
             className={classNames({
               "rounded-2xl shadow": true,
-              " bg-gray-800": theme === "dark",
-              " bg-white": theme === "light",
             })}
-          >
+            >
             <div
               className={classNames({
-                "flex min-w-[355px] rounded-2xl ml-1 justify-center items-center p-4": true,
+                "flex min-w-[355px] ml-1 rounded-2xl  justify-center items-center p-4": true,
                 "bg-gray-700": theme === "dark",
                 "bg-white": theme === "light",
               })}
-            >
+              >
               <SearchInput handleSearch={handleSearch} referral={searchInput} />
             </div>
 
             {isSearchResult && (
-              <div className="">
+              <div 
+              ref={divRef}
+              className={classNames({
+                "flex rounded-xl  justify-center items-center": true,
+                "bg-gray-700": theme === "dark",
+                "bg-white": theme === "light",
+              })}
+              >
                 <SearchResultsList
                   autoCompleteResults={autoCompleteResults}
                   handleSelectCountry={handleSelectCountry}
                   theme={theme}
-                />
+                  />
               </div>
             )}
           </div>

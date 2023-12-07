@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
 
 const apiKey4 = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"//done
-const apiKey2 = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"//done
-const apiKey3 = "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"//done
-const apiKey   = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"
+const apiKey = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"//done
+const apiKey2 = "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"//done
+const apiKey3   = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"//done
 
 interface IAutoCompleteResult {
   autoCompleteResults: any[] | null
@@ -29,13 +29,12 @@ const initialState: IAutoCompleteResult & IForecastResult = {
 
 export const searchAutoComplete = createAsyncThunk(
   "weather/searchAutoComplete",
-  async (searchValue: string) => {
+  async (searchValue: string ) => {
     const searchAutoCompleteURL = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${searchValue}`
     try {
       const result = await axios.get(searchAutoCompleteURL)
       return result.data
     } catch (error) {
-      console.error("Autocomplete search failed:", error)
       throw error
     }
   },
@@ -49,7 +48,6 @@ export const fetchFiveDayForecast = createAsyncThunk(
       const result = await axios.get(fiveDayForecastURL)
       return result.data
     } catch (error) {
-      console.error("Fetching five-day forecast failed:", error)
       throw error
     }
   },
@@ -63,7 +61,6 @@ export const fetchCurrentForecast = createAsyncThunk(
       const result = await axios.get(currentForecastURL)
       return result.data
     } catch (error) {
-      console.error("Fetching current forecast failed:", error)
       throw error
     }
   },
@@ -86,7 +83,6 @@ export const fetchCurrentForecastWithGeoLocation = createAsyncThunk(
       const result3 = await axios.get(basedLocationKeySearchFiveDayForecast)
       return  {geoLocation:result.data, fiveDayGeoForecast: result3.data, currentGeoForecast:result2.data}
     } catch (error) {
-      console.error("Fetching current forecast failed:", error)
       throw error
     }
   },
