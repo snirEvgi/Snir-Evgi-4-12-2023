@@ -84,7 +84,7 @@ console.log(error);
         if (!result.isConfirmed) {
 
         } else {
-          const updatedList = favoriteList.filter((p: any) => p.MobileLink !== placeIdentifier);
+          const updatedList = favoriteList.filter((place: any) => place.MobileLink !== placeIdentifier);
           setFavoriteList(updatedList);
           localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
         }

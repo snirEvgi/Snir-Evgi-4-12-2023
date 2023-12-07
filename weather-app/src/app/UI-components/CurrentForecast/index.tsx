@@ -65,7 +65,7 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
         if (!result.isConfirmed) {
 
         } else {
-          const updatedList = favoriteList.filter((p: any) => p.MobileLink !== placeIdentifier);
+          const updatedList = favoriteList.filter((place: any) => place.MobileLink !== placeIdentifier);
           setIsShown(false)
           setFavoriteList(updatedList);
           localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
@@ -76,7 +76,7 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
     }
   };
   useEffect(() => {
-    const isLikedUpdate = favoriteList.some((p: any) => p.MobileLink === currentForecast.MobileLink);
+    const isLikedUpdate = favoriteList.some((place: any) => place.MobileLink === currentForecast.MobileLink);
     setIsShown(isLikedUpdate);
   }, [favoriteList, currentForecast]);
 

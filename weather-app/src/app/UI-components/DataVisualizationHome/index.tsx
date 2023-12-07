@@ -7,7 +7,11 @@ import classNames from "classnames"
 import { daysOfWeek } from "../../pages/FavoritePage"
 
 
-const DataVisualHome = (props: { forecasts: Array<any> }) => {
+interface DataVisualHomeProps {
+  forecasts: Array<any>;
+}
+
+const DataVisualHome = (props: DataVisualHomeProps) => {
     const [fiveDayForecast, setFiveDayForecast] = useState(
         (props.forecasts as any)?.DailyForecasts,
       )

@@ -4,6 +4,7 @@ import SearchResultItem from '../SearchResultItem';
 
 const SearchResultsList = ({ autoCompleteResults, theme, handleSelectCountry }:any) => {
    
+
   return (
     <div 
     className="max-h-[20rem]  w-full ml-[7px] md:ml-2 lg:ml-1 min-w-[345px] overflow-auto">

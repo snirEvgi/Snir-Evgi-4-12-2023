@@ -1,15 +1,15 @@
-import React, { useRef, useState } from "react"
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import  { useRef, useState } from "react"
 import { useAppSelector } from "../../hooks";
 import classNames from "classnames";
 import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb"
-import {  FaTemperatureLow } from "react-icons/fa"
 import { daysOfWeek } from "../../pages/FavoritePage";
-import Loader from "../Loader";
 
+interface ForecastListProps {
+  header?:string
+  forecasts: Array<any>
+}
 
-
-const ForecastList = (props: { header?:string, forecasts: Array<any> }) => {
+const ForecastList = (props: ForecastListProps) => {
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
   const [maxTemp, setMaxTemp] = useState<number>(0)
   const [minTemp, setMinTemp] = useState<number>(0)
@@ -18,9 +18,7 @@ const ForecastList = (props: { header?:string, forecasts: Array<any> }) => {
     (props.forecasts as any)?.DailyForecasts,
   )
   const theme = localStorage.getItem("theme")
-  const theme2 = useAppSelector((state) => state.theme.theme) ||theme
 
-  const forecastRef = useRef<any>(null);
 
   function convertFahrenheitToCelsius(fahrenheit:number) {
     const celsius = (fahrenheit - 32) * 5/9;
@@ -28,11 +26,11 @@ const ForecastList = (props: { header?:string, forecasts: Array<any> }) => {
 
   }
 
-  const handleTemperatureIndicatorSelect = (f:any) => {
+  const handleTemperatureIndicatorSelect = (forecast:any) => {
     setIsOnFahrenheit(!isOnFahrenheit)
    
-    const minTemp = convertFahrenheitToCelsius(Number(f.Temperature.Minimum.Value))
-    const maxTemp = convertFahrenheitToCelsius(Number(f.Temperature.Maximum.Value))
+    const minTemp = convertFahrenheitToCelsius(Number(forecast.Temperature.Minimum.Value))
+    const maxTemp = convertFahrenheitToCelsius(Number(forecast.Temperature.Maximum.Value))
     setMinTemp(Number(minTemp))
     setMaxTemp(Number(maxTemp))
 

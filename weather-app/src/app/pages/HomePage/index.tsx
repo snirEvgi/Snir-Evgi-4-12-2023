@@ -50,6 +50,7 @@ const HomePage = () => {
   )
   const theme = localStorage.getItem("theme")
 
+  
 
   const fetchTlvDataHandler = async () => {
     try {
@@ -96,14 +97,12 @@ const HomePage = () => {
   
 
   const successHandler = async (location: any) => {
-    console.log(location)
-    fetchGeoLocationDataHandler(location)
+    // fetchGeoLocationDataHandler(location)
    
   
   
   }
   const errorHandler = (error: any) => {
-    console.log(error)
     fetchTlvDataHandler()
     
   }
@@ -121,12 +120,12 @@ const HomePage = () => {
 
   
 
-  const handleSelectCountry = async (result: any) => {
+  const handleSelectCountry = async (place: any) => {
     try {
-      setCountryName(result.LocalizedName)
+      setCountryName(place.LocalizedName)
 
-      const response = await dispatch(fetchFiveDayForecast(result?.Key))
-      const response2 = await dispatch(fetchCurrentForecast(result?.Key))
+      const response = await dispatch(fetchFiveDayForecast(place?.Key))
+      const response2 = await dispatch(fetchCurrentForecast(place?.Key))
       setIsLoading(true)
     } catch (error) {
       console.log(error)
@@ -188,7 +187,7 @@ const HomePage = () => {
   return (
     <div
     className={classnames({
-      "container -mx-6 md:mx-auto lg:mx-auto xl:mx-auto flex items-center justify-center  max-h-screen p-4": true,
+      "container -mx-6 md:mx-auto lg:mx-auto xl:mx-auto  max-h-screen p-4": true,
     })}
     >
       <Toast ref={toast} />
@@ -205,7 +204,8 @@ const HomePage = () => {
               "rounded-2xl shadow": true,
             })}
             >
-            <div
+             
+             <div
               className={classNames({
                 "flex min-w-[355px] ml-1 rounded-2xl  justify-center items-center p-4": true,
                 "bg-gray-700": theme === "dark",

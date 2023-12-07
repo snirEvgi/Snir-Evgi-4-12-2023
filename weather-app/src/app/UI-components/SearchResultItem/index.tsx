@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-
 const SearchResultItem = ({ result, theme, handleSelectCountry }:any) => {
   return (
     <li
