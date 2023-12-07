@@ -8,7 +8,7 @@ import {
   fetchFiveDayForecast,
   searchAutoComplete,
 } from "./weatherSlice"
-import { fetchTelAvivData } from "./homepageAPI"
+import { fetchTelAvivData } from "./weatherAPI"
 import classnames from "classnames"
 import ForecastList from "../../UI-components/ForecastList"
 import CurrentForecast from "../../UI-components/CurrentForecast"
