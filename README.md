@@ -48,7 +48,7 @@ This Weather App utilizes the AccuWeather API.
 
 ## Contributors
 
-- [Snir Evgi]
+- Snir Evgi
 
 
 
