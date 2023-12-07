@@ -44,6 +44,8 @@ To use the Weather App, follow these simple steps:
 
 ## Acknowledgments
 
+abra - Web & Mobile
+
 This Weather App utilizes the AccuWeather API.
 
 ## Contributors
