@@ -34,7 +34,6 @@ const HomePage = () => {
   const divRef = useRef<null | any>(null)
 
   const [currentCountryName, setCountryName] = useState<string>("")
-  const [currentCountryKey, setCountryKey] = useState<string>("")
   const currentFavorite = JSON.parse(
     localStorage.getItem("currentFavoriteLocation") as any,
   )
@@ -65,7 +64,6 @@ const HomePage = () => {
       setIsFetched(true)
       setFiveDayForecast(telAvivData.fiveDayTlvForecast)
       setCurrentForecast(telAvivData.currentTlvForecast)
-      setCountryKey(telAvivData.key)
     
     } catch (error) {
       setIsFetched(false)
@@ -147,7 +145,6 @@ const HomePage = () => {
       setCountryName(place.LocalizedName)
       setIsLoading(true)
       const response = await dispatch(fetchFiveDayForecast(place?.Key))
-      setCountryKey(place?.key)
       const response2 = await dispatch(fetchCurrentForecast(place?.Key))
     } catch (error) {
       setIsLoading(false)
@@ -219,7 +216,7 @@ const HomePage = () => {
         })}
       >
         <div className="col-span-1 md:col-span-2">
-          <div
+          <div 
             className={classNames({
               "rounded-2xl mr-2 p-2 h-fit min-w-fit": true,
             })}
@@ -286,7 +283,7 @@ const HomePage = () => {
           </div>
         )}
       </div>
-       <footer className={classNames({"p-4 md:ml-0 lg:ml-0 xl:ml-0 ml-9 ":true,"bg-gray-800 opacity-95 text-white":theme ==="dark","bg-white opacity-70 text-black":theme ==="light"})}>
+       <footer className={classNames({"p-10 mt-5 md:ml-0 lg:ml-0 xl:ml-0 ml-9 ":true,"bg-gray-800 opacity-95 text-white":theme ==="dark","bg-white opacity-70 text-black":theme ==="light"})}>
          <div className={"container mx-auto text-center"}>
             <p className="text-sm">&copy; {new Date().getFullYear()} Weather App</p>
          </div>

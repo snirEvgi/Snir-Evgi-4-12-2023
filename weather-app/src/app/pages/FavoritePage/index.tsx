@@ -6,9 +6,8 @@ import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb"
 import classnames from "classnames"
 import Swal from "sweetalert2"
 import classNames from "classnames"
-import ForecastList from "../../UI-components/ForecastList"
 import { useNavigate } from "react-router-dom"
-import { CurrentPlaceForecast, DailyForecast } from "../../models"
+import { CurrentPlaceForecast } from "../../models"
 
 export const daysOfWeek = [
   "Sunday",
