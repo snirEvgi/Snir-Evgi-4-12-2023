@@ -60,12 +60,13 @@ const HomePage = () => {
 
   const fetchTlvDataHandler = async () => {
     try {
+      setIsLoading(true)
       const telAvivData = await fetchTelAvivData()
+      setIsFetched(true)
       setFiveDayForecast(telAvivData.fiveDayTlvForecast)
       setCurrentForecast(telAvivData.currentTlvForecast)
       setCountryKey(telAvivData.key)
-      setIsFetched(true)
-      setIsLoading(true)
+    
     } catch (error) {
       setIsFetched(false)
       setIsLoading(false)
@@ -77,6 +78,7 @@ const HomePage = () => {
     try {
       setCurrentForecast(currentFavorite)
       setCountryName(currentFavorite[0].LocalizedName)
+      setIsLoading(true)
 
       const response = await dispatch(
         fetchFiveDayForecast(currentFavorite[1] as string),
@@ -84,7 +86,6 @@ const HomePage = () => {
 
       setFiveDayForecast(response.payload)
       setIsFetched(true)
-      setIsLoading(true)
     } catch (error) {
       setIsFetched(false)
       setIsLoading(false)
@@ -95,6 +96,7 @@ const HomePage = () => {
 
   const fetchGeoLocationDataHandler = async (location: GeolocationPosition) => {
     try {
+      setIsLoading(true)
       const response: any = await dispatch(
         fetchCurrentForecastWithGeoLocation({
           lat: location.coords.latitude,
@@ -102,7 +104,6 @@ const HomePage = () => {
         }),
       )
       setIsFetched(true)
-      setIsLoading(true)
       setFiveDayForecast(response?.payload?.fiveDayGeoForecast)
       setCurrentForecast(response?.payload?.currentGeoForecast)
       setCountryName(response?.payload?.geoLocation.LocalizedName)
@@ -144,10 +145,10 @@ const HomePage = () => {
   const handleSelectCountry = async (place: any) => {
     try {
       setCountryName(place.LocalizedName)
+      setIsLoading(true)
       const response = await dispatch(fetchFiveDayForecast(place?.Key))
       setCountryKey(place?.key)
       const response2 = await dispatch(fetchCurrentForecast(place?.Key))
-      setIsLoading(true)
     } catch (error) {
       setIsLoading(false)
     } finally {
