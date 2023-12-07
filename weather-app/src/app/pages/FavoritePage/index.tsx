@@ -1,14 +1,14 @@
 import { Toast } from "primereact/toast"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { IoHeartDislike, IoSunnyOutline } from "react-icons/io5"
 import { FaRegMoon, FaTemperatureLow } from "react-icons/fa"
 import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb"
 import classnames from "classnames"
-import { useAppDispatch, useAppSelector } from "../../hooks"
 import Swal from "sweetalert2"
 import classNames from "classnames"
 import ForecastList from "../../UI-components/ForecastList"
-import { fetchFiveDayForecast } from "../HomePage/weatherSlice"
+import { useNavigate } from "react-router-dom"
+import { CurrentPlaceForecast } from "../../models"
 
 export const daysOfWeek = [
   "Sunday",
@@ -22,78 +22,56 @@ export const daysOfWeek = [
 
 const FavoritePage = () => {
   const [favoriteList, setFavoriteList] = useState<any[]>(
-    JSON.parse(localStorage.getItem('likedPlaces') as string) ||[])
+    JSON.parse(localStorage.getItem("likedPlaces") as string) || [],
+  )
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
   const [isForecastOn, setIsForecastOn] = useState<boolean>(false)
   const [currentFavoriteName, setCurrentFavoriteName] = useState<string>("")
   const [favoriteFiveDayForecast, setFavoriteFiveDayForecast] = useState<Array<any>>([])
   const toast = useRef<Toast | null>(null)
   const theme = localStorage.getItem("theme")
-const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
-
-  const getNumberFromUrl = (url:string)=>{
+  const getNumberFromUrl = (url: string) => {
     // regex to check the link for the number
-  const match = url.match(/\/(\d+)\/current-weather/);
-  // check if there is a match
-  if (match && match[1]) {
-    const extractedNumber = match[1];
-    return extractedNumber
-  } 
-  return
-}
-const handleSetFiveDayForecast = async (place:any)=>{
-  const number =   getNumberFromUrl(place?.MobileLink)
-  const key = number?.toString()
-  setCurrentFavoriteName(place.LocalizedName)
-  try {
-      const response = await dispatch(fetchFiveDayForecast(key as string))
-      if (fetchFiveDayForecast.fulfilled.match(response)) {
-          setFavoriteFiveDayForecast(response.payload)
-          setIsForecastOn(!isForecastOn)
-
-
-      }else{
-        toast.current?.show({
-            severity: "error",
-            summary: "Unexpected issue  ",
-            detail: "Issue found. Please contact admin.",
-          })
-      }
-      
-  } catch (error) {
-console.log(error);
-   
-    
+    const match = url.match(/\/(\d+)\/current-weather/)
+    // check if there is a match
+    if (match && match[1]) {
+      const extractedNumber = match[1]
+      return extractedNumber
+    }
+    return
   }
-    
+  const handleClickFavorite = async (place: CurrentPlaceForecast) => {
+    const number = getNumberFromUrl(place?.MobileLink)
+    const key = number?.toString()
+    setCurrentFavoriteName(place?.LocalizedName as string)
 
-}
+    const data = [place, key]
+    localStorage.setItem("currentFavoriteVacation", JSON.stringify(data))
+    navigate("/")
+  }
   const handleRemoveLike = (place: any) => {
     const placeIdentifier = place.MobileLink
     return Swal.fire({
-        title: `Are you sure you want to remove ${place.LocalizedName}?`,
-        // text: "",
-        icon: "warning",
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Confirm",
-        showCancelButton: true,
-        cancelButtonText: "Cancel",
+      title: `Are you sure you want to remove ${place.LocalizedName}?`,
+      // text: "",
+      icon: "warning",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirm",
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
     }).then((result) => {
-        if (!result.isConfirmed) {
-
-        } else {
-          const updatedList = favoriteList.filter((place: any) => place.MobileLink !== placeIdentifier);
-          setFavoriteList(updatedList);
-          localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
-        }
-
-    });
-
-
-
-   
+      if (!result.isConfirmed) {
+      } else {
+        const updatedList = favoriteList.filter(
+          (place: any) => place.MobileLink !== placeIdentifier,
+        )
+        setFavoriteList(updatedList)
+        localStorage.setItem("likedPlaces", JSON.stringify(updatedList))
+      }
+    })
   }
 
   const handleTemperatureIndicatorSelect = () => {
@@ -103,7 +81,8 @@ console.log(error);
   return (
     <div
       className={classnames({
-        "max-w-screen min-h-screen duration-300 ease-in  transition-colors bg-none mx-auto p-4": true,
+        "max-w-screen min-h-screen duration-300 ease-in  transition-colors bg-none mx-auto p-4":
+          true,
         "text-white": theme === "dark",
       })}
     >
@@ -131,9 +110,11 @@ console.log(error);
                   <button
                     onClick={() => handleTemperatureIndicatorSelect()}
                     className={classNames({
-                        "text-2xl rounded-full mt-1  p-2 min-h-[2rem] ":true,
-                        "  hover:text-gray-800  hover:bg-gray-300":theme === "dark",
-                        "  hover:text-gray-200  hover:bg-gray-800":theme === "light",
+                      "text-2xl rounded-full mt-1  p-2 min-h-[2rem] ": true,
+                      "  hover:text-gray-800  hover:bg-gray-300":
+                        theme === "dark",
+                      "  hover:text-gray-200  hover:bg-gray-800":
+                        theme === "light",
                     })}
                   >
                     <TbTemperatureCelsius className=" cursor-pointer" />
@@ -142,9 +123,11 @@ console.log(error);
                   <button
                     onClick={() => handleTemperatureIndicatorSelect()}
                     className={classNames({
-                        "text-2xl rounded-full mt-1  p-2 min-h-[2rem] ":true,
-                        "  hover:text-gray-800  hover:bg-gray-300":theme === "dark",
-                        "  hover:text-gray-200  hover:bg-gray-800":theme === "light",
+                      "text-2xl rounded-full mt-1  p-2 min-h-[2rem] ": true,
+                      "  hover:text-gray-800  hover:bg-gray-300":
+                        theme === "dark",
+                      "  hover:text-gray-200  hover:bg-gray-800":
+                        theme === "light",
                     })}
                   >
                     <TbTemperatureFahrenheit className=" cursor-pointer" />
@@ -152,11 +135,13 @@ console.log(error);
                 )}
                 <button
                   onClick={() => handleRemoveLike(place)}
-                  className={classNames(
-                    {"text-2xl rounded-full mt-2  p-2 min-h-[2rem] ":true,
-                  "  hover:text-gray-800  hover:bg-gray-300":theme === "dark",
-                  "  hover:text-gray-200  hover:bg-gray-800":theme === "light",
-                })}
+                  className={classNames({
+                    "text-2xl rounded-full mt-2  p-2 min-h-[2rem] ": true,
+                    "  hover:text-gray-800  hover:bg-gray-300":
+                      theme === "dark",
+                    "  hover:text-gray-200  hover:bg-gray-800":
+                      theme === "light",
+                  })}
                 >
                   <IoHeartDislike className=" cursor-pointer" />
                 </button>
@@ -181,12 +166,13 @@ console.log(error);
                     {!isOnFahrenheit ? (
                       <span className="flex gap-7 items-center justify-start min-w-[5rem]">
                         {place.Temperature.Imperial.Value} °F{" "}
-                          <FaTemperatureLow size={22} />{" "}
+                        <FaTemperatureLow size={22} />{" "}
                       </span>
                     ) : (
                       <span className="flex gap-x-7 justify-start min-w-[5rem items-center">
                         {" "}
-                        {place.Temperature.Metric.Value}°C <FaTemperatureLow size={22} />{" "}
+                        {place.Temperature.Metric.Value}°C{" "}
+                        <FaTemperatureLow size={22} />{" "}
                       </span>
                     )}
                   </span>
@@ -194,21 +180,22 @@ console.log(error);
               </div>
               <br />
               <span
-                onClick={ ()=>handleSetFiveDayForecast(place)}
-              
+                onClick={() => handleClickFavorite(place)}
                 className="text-blue-500 hover:text-blue-700 "
               >
-                View Details
+                View More
               </span>
             </div>
           </div>
         ))}
       </div>
-      <div className="mt-10">
-      {isForecastOn && favoriteFiveDayForecast &&
-
-        <ForecastList header={`${currentFavoriteName} Daily Forecasts`} forecasts={favoriteFiveDayForecast} />
-      }
+      <div className="mt-10 ">
+        {isForecastOn && favoriteFiveDayForecast && (
+          <ForecastList
+            header={`${currentFavoriteName} Daily Forecasts`}
+            forecasts={favoriteFiveDayForecast}
+          />
+        )}
       </div>
     </div>
   )

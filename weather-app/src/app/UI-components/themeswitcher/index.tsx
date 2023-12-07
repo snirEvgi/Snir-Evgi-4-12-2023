@@ -6,7 +6,8 @@ import { toggleTheme } from "./themeSlice";
 
 const ThemeSwitcher = () => {
   const dispatch = useAppDispatch();
-  const theme = useAppSelector((state) => state.theme);
+  const theme = useAppSelector((state) => state.theme)||"light";
+
 
   useEffect(() => {
     const localTheme = localStorage.getItem('theme');

@@ -3,14 +3,14 @@ import classNames from "classnames"
 
 interface SearchResultItemProps {
   result: any | {}
-  theme: string
   handleSelectCountry: any
 }
 const SearchResultItem = ({
   result,
-  theme,
   handleSelectCountry,
 }: SearchResultItemProps) => {
+  const theme = localStorage.getItem("theme")
+
   return (
     <li
       onClick={() => handleSelectCountry(result)}

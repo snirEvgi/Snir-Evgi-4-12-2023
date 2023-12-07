@@ -1,26 +1,17 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
+import { IAutoCompleteResult, IForecastResult } from "../../models"
 
 
-export const apiKey = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"//done
-const apiKey2 = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"//done
-const apiKey3= "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"//done
+export const apiKey= "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"//done
+const apiKey2 = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"//currently
+ const apiKey3 = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"//done
 const apiKey4 = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"//done
 
 
 
 
-interface IAutoCompleteResult {
-  autoCompleteResults: any[] | null
-  loading: boolean
-  error: string | undefined
-}
 
-interface IForecastResult {
-  fiveDayForecast: any[] | null
-  currentForecast: any[] | null
-  geoForecast: any | null
-}
 
 const initialState: IAutoCompleteResult & IForecastResult = {
   autoCompleteResults: null,
@@ -77,12 +68,10 @@ export const fetchCurrentForecastWithGeoLocation = createAsyncThunk(
 
     try {
       const result = await axios.get(geoSearch)
-      console.log(result.data , "asjasaaaaaaaaaaa");
       
       const key = result.data.Key
       const currentForecastURL = `https://dataservice.accuweather.com/currentconditions/v1/${key}?apikey=${apiKey}`
       const result2 = await axios.get(currentForecastURL)
-      console.log(result,"position?.cords.longitude",result2 , "assa");
     const basedLocationKeySearchFiveDayForecast = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${key}?apikey=${apiKey}`
       const result3 = await axios.get(basedLocationKeySearchFiveDayForecast)
       return  {geoLocation:result.data, fiveDayGeoForecast: result3.data, currentGeoForecast:result2.data}

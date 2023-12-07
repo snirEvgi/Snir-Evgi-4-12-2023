@@ -17,19 +17,21 @@ import Loader from "../../UI-components/Loader"
 import SearchInput from "../../UI-components/SearchInput"
 import SearchResultsList from "../../UI-components/SearchResultList"
 import DataVisualHome from "../../UI-components/DataVisualizationHome"
+import {  CurrentPlaceForecast, DailyForecast } from "../../models"
 
 const HomePage = () => {
   const searchInput = useRef<HTMLInputElement | null>(null)
   const toast = useRef<Toast | null>(null)
   const [isSearchResult, setIsSearchResult] = useState<boolean>(false)
-  const [fiveDayTlvForecast, setFiveDayTlvForecast] = useState<Array<any>>([])
-  const [currentForecast, setCurrentForecast] = useState<any>({})
+  const [fiveDayTlvForecast, setFiveDayForecast] = useState<Array<DailyForecast>>([])
+  const [currentForecast, setCurrentForecast] = useState <Array<CurrentPlaceForecast>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFetched, setIsFetched] = useState<boolean>(false)
   const divRef = useRef<null|any>(null);
   
   const [currentCountryName, setCountryName] = useState<string>("")
-
+  const  currentFavorite =  JSON.parse(localStorage.getItem("currentFavoriteVacation")as any)
+    
   const dispatch = useAppDispatch()
 
   const searchSchema = z.object({
@@ -55,7 +57,7 @@ const HomePage = () => {
   const fetchTlvDataHandler = async () => {
     try {
       const telAvivData = await fetchTelAvivData()
-      setFiveDayTlvForecast(telAvivData.fiveDayTlvForecast)
+      setFiveDayForecast(telAvivData.fiveDayTlvForecast)
       setCurrentForecast(telAvivData.currentTlvForecast)
       setIsFetched(true)
       setIsLoading(true)
@@ -63,13 +65,29 @@ const HomePage = () => {
       setIsFetched(false)
       setIsLoading(false)
 
-      console.error("Data fetch failed:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  const setFavoriteDataHandler = async () => {
+    try {
+      setCurrentForecast(currentFavorite)
+setCountryName(currentFavorite[0].LocalizedName)
+      const response = await dispatch(fetchFiveDayForecast(currentFavorite[1] as string))
+
+      setFiveDayForecast(response.payload)
+      setIsFetched(true)
+      setIsLoading(true)
+    } catch (error) {
+      setIsFetched(false)
+      setIsLoading(false)
+
     } finally {
       setIsLoading(false)
     }
   }
 
-  const fetchGeoLocationDataHandler = async (location:any) => {
+  const fetchGeoLocationDataHandler = async (location:GeolocationPosition) => {
 
     try {
       const response:any = await dispatch(
@@ -77,18 +95,13 @@ const HomePage = () => {
       )  
       setIsFetched(true)
       setIsLoading(true)
-      setFiveDayTlvForecast(response?.payload?.fiveDayGeoForecast)
+      setFiveDayForecast(response?.payload?.fiveDayGeoForecast)
       setCurrentForecast(response?.payload?.currentGeoForecast)
       setCountryName(response?.payload?.geoLocation.LocalizedName)
-      console.log(response, "GeoLocation response");
-      console.log(currenGeoLocationResults, " geogeo")
     } catch (error) {
       setIsFetched(false)
       setIsLoading(false)
-      console.error(
-        "Fetching current forecast with geo-location failed:",
-        error,
-      )
+     
     }finally{
       setIsLoading(false)
 
@@ -96,26 +109,32 @@ const HomePage = () => {
   }
   
 
-  const successHandler = async (location: any) => {
-    fetchGeoLocationDataHandler(location)
-   
+  const successHandler = async (location: GeolocationPosition) => {
+    
+    if (currentFavorite){
+    await  setFavoriteDataHandler()
+    }else{
+    await fetchGeoLocationDataHandler(location)
+
+  }
   
   
   }
-  const errorHandler = (error: any) => {
-    fetchTlvDataHandler()
-    
+  const errorHandler = async (error: GeolocationPositionError) => {
+    if (currentFavorite){
+
+    await  setFavoriteDataHandler()
+    }else{
+      await fetchTlvDataHandler()
+
+  }
   }
 
   
   useEffect(() => {
     const geoLocation = navigator.geolocation.getCurrentPosition(
       successHandler,
-      errorHandler,
-
-    )
-
-   
+      errorHandler)   
   }, [])
 
   
@@ -128,7 +147,6 @@ const HomePage = () => {
       const response2 = await dispatch(fetchCurrentForecast(place?.Key))
       setIsLoading(true)
     } catch (error) {
-      console.log(error)
       setIsLoading(false)
 
     } finally {
@@ -223,7 +241,6 @@ const HomePage = () => {
                 <SearchResultsList
                   autoCompleteResults={autoCompleteResults}
                   handleSelectCountry={handleSelectCountry}
-                  theme={theme}
                   />
               </div>
             )}

@@ -9,9 +9,9 @@ export async function fetchTelAvivData() {
     const result1 = await axios.get(basedLocationKeySearchCurrentForecast)
     const result2 = await axios.get(basedLocationKeySearchFiveDayForecast)
     const data = {fiveDayTlvForecast: result2.data, currentTlvForecast:result1.data}
+    
     return data
   } catch (error) {
-    console.error("data fetch failed:", error)
     throw error
   }
 }

@@ -1,15 +1,14 @@
 import {  useNavigate } from "react-router-dom";
 import { IoIosCloudy } from "react-icons/io";
-import { useAppSelector } from "../../hooks";
 import classNames from "classnames";
 import ThemeSwitcher from "../themeswitcher";
 const NavBar = () => {
-  const theme = useAppSelector((state) => state.theme.theme) || "light"
  const navigate = useNavigate()
   const links = [
     { label: 'Home', href: '/' },
     { label: 'My Locations', href: '/favorites' },
   ]
+  const theme = localStorage.getItem("theme")||"light"
 
   return (
     <nav className={classNames({

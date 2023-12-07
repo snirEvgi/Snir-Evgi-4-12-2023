@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import SearchResultItem from '../SearchResultItem';
 interface SearchResultsListProps {
     autoCompleteResults:any
-    theme: string
     handleSelectCountry: any
   }
-const SearchResultsList = ({ autoCompleteResults, theme, handleSelectCountry }:SearchResultsListProps) => {
+const SearchResultsList = ({ autoCompleteResults,  handleSelectCountry }:SearchResultsListProps) => {
    
+    const theme = localStorage.getItem("theme")
 
   return (
     <div 
@@ -26,7 +26,6 @@ const SearchResultsList = ({ autoCompleteResults, theme, handleSelectCountry }:S
           <SearchResultItem
             key={result.Key}
             result={result}
-            theme={theme}
             handleSelectCountry={handleSelectCountry}
           />
         ))}
