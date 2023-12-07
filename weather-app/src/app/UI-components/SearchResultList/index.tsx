@@ -2,11 +2,11 @@ import React, { useRef } from 'react';
 import classNames from 'classnames';
 import SearchResultItem from '../SearchResultItem';
 interface SearchResultsListProps {
-    autoCompleteResults: Array<any> | []
+    autoCompleteResults:any
     theme: string
     handleSelectCountry: any
   }
-const SearchResultsList = ({ autoCompleteResults, theme, handleSelectCountry }:any) => {
+const SearchResultsList = ({ autoCompleteResults, theme, handleSelectCountry }:SearchResultsListProps) => {
    
 
   return (

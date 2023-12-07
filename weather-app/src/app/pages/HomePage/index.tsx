@@ -48,7 +48,7 @@ const HomePage = () => {
   const currentLocationFiveDayResults = useAppSelector(
     (state) => state.weather.fiveDayForecast,
   )
-  const theme = localStorage.getItem("theme")
+  const theme = localStorage.getItem("theme") ||"light"
 
   
 
@@ -97,7 +97,7 @@ const HomePage = () => {
   
 
   const successHandler = async (location: any) => {
-    // fetchGeoLocationDataHandler(location)
+    fetchGeoLocationDataHandler(location)
    
   
   
