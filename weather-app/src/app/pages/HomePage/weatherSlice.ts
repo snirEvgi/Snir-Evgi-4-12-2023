@@ -2,16 +2,10 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
 import { IAutoCompleteResult, IForecastResult } from "../../models"
 
-
-export const apiKey= "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"//done
-const apiKey2 = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"//currently
- const apiKey3 = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"//done
-const apiKey4 = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"//done
-
-
-
-
-
+export const apiKey = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"
+export const apiKey1 = "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"
+export const apiKey2 = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"
+export const apiKey3 = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"
 
 const initialState: IAutoCompleteResult & IForecastResult = {
   autoCompleteResults: null,
@@ -24,7 +18,7 @@ const initialState: IAutoCompleteResult & IForecastResult = {
 
 export const searchAutoComplete = createAsyncThunk(
   "weather/searchAutoComplete",
-  async (searchValue: string ) => {
+  async (searchValue: string) => {
     const searchAutoCompleteURL = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${searchValue}`
     try {
       const result = await axios.get(searchAutoCompleteURL)
@@ -54,6 +48,7 @@ export const fetchCurrentForecast = createAsyncThunk(
     const currentForecastURL = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`
     try {
       const result = await axios.get(currentForecastURL)
+      const data = result.data
       return result.data
     } catch (error) {
       throw error
@@ -68,13 +63,17 @@ export const fetchCurrentForecastWithGeoLocation = createAsyncThunk(
 
     try {
       const result = await axios.get(geoSearch)
-      
+
       const key = result.data.Key
       const currentForecastURL = `https://dataservice.accuweather.com/currentconditions/v1/${key}?apikey=${apiKey}`
       const result2 = await axios.get(currentForecastURL)
-    const basedLocationKeySearchFiveDayForecast = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${key}?apikey=${apiKey}`
+      const basedLocationKeySearchFiveDayForecast = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${key}?apikey=${apiKey}`
       const result3 = await axios.get(basedLocationKeySearchFiveDayForecast)
-      return  {geoLocation:result.data, fiveDayGeoForecast: result3.data, currentGeoForecast:result2.data}
+      return {
+        geoLocation: result.data,
+        fiveDayGeoForecast: result3.data,
+        currentGeoForecast: result2.data,
+      }
     } catch (error) {
       throw error
     }
