@@ -285,6 +285,11 @@ const HomePage = () => {
           </div>
         )}
       </div>
+       <footer className={classNames({"p-4 ":true,"bg-gray-800 opacity-95 text-white":theme ==="dark","bg-white opacity-70 text-black":theme ==="light"})}>
+         <div className={"container mx-auto text-center"}>
+            <p className="text-sm">&copy; {new Date().getFullYear()} Weather App</p>
+         </div>
+      </footer>
     </div>
   )
 }
