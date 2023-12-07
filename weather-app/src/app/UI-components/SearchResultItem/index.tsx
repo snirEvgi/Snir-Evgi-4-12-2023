@@ -3,7 +3,7 @@ import classNames from "classnames"
 
 interface SearchResultItemProps {
   result: any | {}
-  handleSelectCountry: any
+  handleSelectCountry: (result:any) => void
 }
 const SearchResultItem = ({
   result,
@@ -21,7 +21,7 @@ const SearchResultItem = ({
         "hover:bg-gray-100 text-black": theme === "light",
       })}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex ml-1 items-center justify-between">
         <div className="">
           <p className="font-bold">{result.LocalizedName}</p>
           <p className="text-sm">
@@ -37,7 +37,7 @@ const SearchResultItem = ({
           </p>
         </div>
         <div className="text-sm">
-          <span className="font-semibold">Country ID:</span> {result.Country.ID}
+          <span className="font-semibold">Country ID:</span> {result.Key}
         </div>
       </div>
     </li>

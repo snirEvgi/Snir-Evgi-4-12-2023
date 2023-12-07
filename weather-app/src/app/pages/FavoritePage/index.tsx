@@ -8,7 +8,7 @@ import Swal from "sweetalert2"
 import classNames from "classnames"
 import ForecastList from "../../UI-components/ForecastList"
 import { useNavigate } from "react-router-dom"
-import { CurrentPlaceForecast } from "../../models"
+import { CurrentPlaceForecast, DailyForecast } from "../../models"
 
 export const daysOfWeek = [
   "Sunday",
@@ -21,13 +21,14 @@ export const daysOfWeek = [
 ]
 
 const FavoritePage = () => {
-  const [favoriteList, setFavoriteList] = useState<any[]>(
+  const [favoriteList, setFavoriteList] = useState <Array<CurrentPlaceForecast>>(
     JSON.parse(localStorage.getItem("likedPlaces") as string) || [],
   )
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
   const [isForecastOn, setIsForecastOn] = useState<boolean>(false)
   const [currentFavoriteName, setCurrentFavoriteName] = useState<string>("")
-  const [favoriteFiveDayForecast, setFavoriteFiveDayForecast] = useState<Array<any>>([])
+  const [currentFavoriteID, setCurrentFavoriteID] = useState<string>("")
+  const [favoriteFiveDayForecast, setFavoriteFiveDayForecast] = useState<Array<DailyForecast>>([])
   const toast = useRef<Toast | null>(null)
   const theme = localStorage.getItem("theme")
   const navigate = useNavigate()
@@ -45,13 +46,14 @@ const FavoritePage = () => {
   const handleClickFavorite = async (place: CurrentPlaceForecast) => {
     const number = getNumberFromUrl(place?.MobileLink)
     const key = number?.toString()
+    setCurrentFavoriteID(key as string)
     setCurrentFavoriteName(place?.LocalizedName as string)
 
     const data = [place, key]
     localStorage.setItem("currentFavoriteVacation", JSON.stringify(data))
     navigate("/")
   }
-  const handleRemoveLike = (place: any) => {
+  const handleRemoveLike = (place: CurrentPlaceForecast) => {
     const placeIdentifier = place.MobileLink
     return Swal.fire({
       title: `Are you sure you want to remove ${place.LocalizedName}?`,
@@ -66,7 +68,7 @@ const FavoritePage = () => {
       if (!result.isConfirmed) {
       } else {
         const updatedList = favoriteList.filter(
-          (place: any) => place.MobileLink !== placeIdentifier,
+          (place: CurrentPlaceForecast) => place.MobileLink !== placeIdentifier,
         )
         setFavoriteList(updatedList)
         localStorage.setItem("likedPlaces", JSON.stringify(updatedList))
@@ -93,7 +95,7 @@ const FavoritePage = () => {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {favoriteList.map((place: any, index: number) => (
+        {favoriteList.map((place: CurrentPlaceForecast, index: number) => (
           <div
             key={index}
             className={classnames({
@@ -178,6 +180,10 @@ const FavoritePage = () => {
                   </span>
                 </div>
               </div>
+              <br />
+              <div className="text-sm">
+          <span className="font-semibold">Country ID:</span> {currentFavoriteID}
+        </div>
               <br />
               <span
                 onClick={() => handleClickFavorite(place)}

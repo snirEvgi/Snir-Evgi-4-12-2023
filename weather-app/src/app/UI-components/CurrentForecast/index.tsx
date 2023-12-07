@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import { Toast } from "primereact/toast"
 import { IoHeartDislike } from "react-icons/io5";
-import { useAppSelector } from '../../hooks';
 import classNames from 'classnames';
 import Swal from 'sweetalert2';
 import { daysOfWeek } from '../../pages/FavoritePage';
 import Loader from '../Loader';
+import { CurrentPlaceForecast } from '../../models';
 
 interface CurrentForecastProps {
   currentForecast: any | {};
@@ -19,13 +19,13 @@ const MAX_LIKED = 5;
 
 const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastProps) => {
   const theme = localStorage.getItem("theme")
-  const [favoriteList, setFavoriteList] = useState<any[]>(
+  const [favoriteList, setFavoriteList] = useState<Array<CurrentPlaceForecast>>(
     JSON.parse(localStorage.getItem('likedPlaces') as string) || []);
   const isInitiallyLiked = favoriteList.some((p: any) => p.MobileLink === currentForecast.MobileLink);
   const [isShown, setIsShown] = useState<boolean>(isInitiallyLiked)
   const toast = useRef<Toast | null>(null);
   
-  const handleToggleLike = (place: any) => {
+  const handleToggleLike = (place: CurrentPlaceForecast) => {
     const placeIdentifier = place.MobileLink;
     const currentlyLiked = favoriteList.some((p: any) => p.MobileLink === placeIdentifier);
     if (!currentlyLiked) {
@@ -33,7 +33,7 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
       //  if the maximum limit is reached
       if (favoriteList.length < MAX_LIKED) {
         // state and local storage
-        const updatedList = [...favoriteList, { ...place, LocalizedName: header }];
+        const updatedList = [...favoriteList, { ...place, LocalizedName: header  }];
           setFavoriteList(updatedList);
         localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
         toast?.current?.show({
@@ -64,7 +64,7 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
         if (!result.isConfirmed) {
 
         } else {
-          const updatedList = favoriteList.filter((place: any) => place.MobileLink !== placeIdentifier);
+          const updatedList = favoriteList.filter((place: CurrentPlaceForecast) => place.MobileLink !== placeIdentifier);
           setIsShown(false)
           setFavoriteList(updatedList);
           localStorage.setItem('likedPlaces', JSON.stringify(updatedList));
@@ -75,27 +75,29 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
     }
   };
   useEffect(() => {
-    const isLikedUpdate = favoriteList.some((place: any) => place.MobileLink === currentForecast.MobileLink);
+    const isLikedUpdate = favoriteList.some((place: CurrentPlaceForecast) => place.MobileLink === currentForecast.MobileLink);
     setIsShown(isLikedUpdate);
   }, [favoriteList, currentForecast]);
 
   return (
-    <div className="max-w-sm flex min-w-[345px] overflow-x-scroll items-center justify-center">
+    <div className="max-w-sm flex min-w-[345px]  overflow-x-scroll items-center justify-center">
       <Toast ref={toast} />
       {isLoading && <Loader />}
 
       <div className={classNames({
-        " shadow-lg rounded-lg font-bold duration-300 ease-in  transition-colors  overflow-hidden w-full":true,
+        " shadow-lg rounded-lg font-bold duration-500 ease-in  transition-colors  overflow-hidden w-full":true,
         "bg-white opacity-70 text-black": theme ==="light",
         "bg-gray-500 opacity-90 text-white": theme ==="dark"
 
 
     })}>
-        <div className="px-4 py-5 sm:p-6">
+        <div className="px-4 py-5  sm:p-6">
           <div className="flex items-center justify-between">
             <h3 className="text-2xl font-bold text-black">
               {header} - Today
             </h3>
+            
+
             <div className="flex items-center space-x-2">
           
               <button

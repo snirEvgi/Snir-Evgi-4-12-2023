@@ -5,10 +5,11 @@ import { useEffect, useRef, useState } from "react"
 import { useAppSelector } from "../../hooks"
 import classNames from "classnames"
 import { daysOfWeek } from "../../pages/FavoritePage"
+import {  DailyForecast } from "../../models"
 
 
 interface DataVisualHomeProps {
-  forecasts: Array<any>;
+  forecasts: Array<DailyForecast>;
 }
 
 const DataVisualHome = ({forecasts}: DataVisualHomeProps) => {
@@ -26,14 +27,14 @@ const data = {
       {
         label: "Maximum Temperature (°F)",
         data: fiveDayForecast.map(
-          (forecast: any) => forecast.Temperature.Maximum.Value,
+          (forecast: DailyForecast) => forecast.Temperature.Maximum.Value,
         ),
         backgroundColor: `${theme === "dark" ? "purple" : "darkRed"}`,
       },
       {
         label: "Minimum Temperature (°F)",
         data: fiveDayForecast.map(
-          (forecast: any) => forecast.Temperature.Minimum.Value,
+          (forecast: DailyForecast) => forecast.Temperature.Minimum.Value,
         ),
         backgroundColor: `${theme === "dark" ? "darkBlue" : "lightGreen"}`,
       },
@@ -68,7 +69,7 @@ const data = {
   }
   return (
 <div className={classNames({
-    "p-4 shadow-lg  rounded-lg max-w-sm min-w-[345px]":true,
+    "p-4 shadow-lg  rounded-lg duration-500 ease-in  transition-colors max-w-sm min-w-[345px]":true,
     "bg-white opacity-70 text-black":theme==="light",
     "bg-gray-500 opacity-90 text-white": theme === "dark",
     })}>

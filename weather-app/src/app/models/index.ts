@@ -3,7 +3,7 @@
 
 export interface CurrentPlaceForecast {
     EpochTime: number;
-    LocalizedName?:string |undefined
+    LocalizedName?:string;
     HasPrecipitation: boolean;
     IsDayTime: boolean;
     Link: string;
@@ -29,6 +29,8 @@ export interface CurrentPlaceForecast {
 
   export  interface DailyForecast {
     Date: string;
+    LocalizedName?:string;
+
     Day: {
       Icon: number;
       IconPhrase: string;

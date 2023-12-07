@@ -3,10 +3,11 @@ import { useAppSelector } from "../../hooks";
 import classNames from "classnames";
 import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb"
 import { daysOfWeek } from "../../pages/FavoritePage";
+import { DailyForecast } from "../../models";
 
 interface ForecastListProps {
   header?:string
-  forecasts: Array<any>
+  forecasts: Array<DailyForecast>
 }
 
 const ForecastList = ({header,forecasts}:ForecastListProps) => {
@@ -26,7 +27,7 @@ const ForecastList = ({header,forecasts}:ForecastListProps) => {
 
   }
 
-  const handleTemperatureIndicatorSelect = (forecast:any) => {
+  const handleTemperatureIndicatorSelect = (forecast:DailyForecast) => {
     setIsOnFahrenheit(!isOnFahrenheit)
    
     const minTemp = convertFahrenheitToCelsius(Number(forecast.Temperature.Minimum.Value))
@@ -44,7 +45,7 @@ const ForecastList = ({header,forecasts}:ForecastListProps) => {
 
     <h2 className="text-2xl mt-2 font-semibold mb-4">{header?header:"Daily Forecasts"}</h2>
     <div className="flex gap-6  overflow-x-auto py-2">
-      {fiveDayForecast.map((forecast: any, index: number) => (
+      {fiveDayForecast.map((forecast: DailyForecast, index: number) => (
         <div
           key={index}
           className={classNames({
