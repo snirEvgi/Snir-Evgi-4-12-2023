@@ -12,7 +12,7 @@ const SearchResultsList = ({ autoCompleteResults, theme, handleSelectCountry }:a
   return (
     <div 
     className={classNames({
-        'max-h-[20rem] w-full ml-[7px] md:ml-2 lg:ml-1 min-w-[345px] overflow-auto transition-max-height duration-300 ease-in-out': true,
+        'max-h-[20rem] w-full ml-[2px]   min-w-[345px] overflow-auto transition-max-height duration-300 ease-in-out': true,
         
       })}>
       <ul

@@ -10,14 +10,14 @@ const SearchInput = ({ referral,handleSearch}:SearchInputProps) => {
   const [searchInputText, setSearchInputText] = useState<string>("")
 
   return (
-    <div className="flex  min-w-[325px] w-full ">
+    <div className="flex  min-w-[315px] w-full ">
     <input
       ref={referral}
       value={searchInputText}
       onChange={(e)=>setSearchInputText(e.target.value)}
       type="text"
       className={classNames({
-        "flex-grow h-12 pr-8 pl-5  ml-1 rounded-l-lg focus:shadow-outline focus:outline-none bg-transparent ":
+        "flex-grow h-12   rounded-l-lg focus:shadow-outline focus:outline-none bg-transparent ":
           true,
         " bg-gray-800 text-white": theme === "dark",
         " bg-white text-black": theme === "light",

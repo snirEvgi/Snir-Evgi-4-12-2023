@@ -204,10 +204,10 @@ const HomePage = () => {
               "rounded-2xl shadow": true,
             })}
             >
-             
+             <div>
              <div
               className={classNames({
-                "flex min-w-[355px] ml-1 rounded-2xl  justify-center items-center p-4": true,
+                "flex min-w-[355px]  rounded-2xl  justify-center items-center p-4": true,
                 "bg-gray-700": theme === "dark",
                 "bg-white": theme === "light",
               })}
@@ -218,11 +218,7 @@ const HomePage = () => {
             {isSearchResult && (
               <div 
               ref={divRef}
-              className={classNames({
-                "flex rounded-xl  justify-center items-center": true,
-                "bg-gray-700": theme === "dark",
-                "bg-white": theme === "light",
-              })}
+             
               >
                 <SearchResultsList
                   autoCompleteResults={autoCompleteResults}
@@ -231,6 +227,7 @@ const HomePage = () => {
                   />
               </div>
             )}
+          </div>
           </div>
         </div>
 
