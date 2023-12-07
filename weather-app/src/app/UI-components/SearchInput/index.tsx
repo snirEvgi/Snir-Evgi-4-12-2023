@@ -1,15 +1,18 @@
 import classNames from 'classnames'
 import React, { useState } from 'react'
 import { IoSearch } from "react-icons/io5"
-
-const SearchInput = (props:{ referral:any,handleSearch:any}) => {
+interface SearchInputProps {
+    referral:any
+    handleSearch: any
+  }
+const SearchInput = ({ referral,handleSearch}:SearchInputProps) => {
   const theme = localStorage.getItem("theme")||"light"
   const [searchInputText, setSearchInputText] = useState<string>("")
 
   return (
     <div className="flex  min-w-[325px] w-full ">
     <input
-      ref={props?.referral}
+      ref={referral}
       value={searchInputText}
       onChange={(e)=>setSearchInputText(e.target.value)}
       type="text"
@@ -20,12 +23,12 @@ const SearchInput = (props:{ referral:any,handleSearch:any}) => {
         " bg-white text-black": theme === "light",
       })}
       placeholder="Search Any Place..."
-      onKeyDown={(e)=> e.code==="Enter" && props.handleSearch(searchInputText)}
+      onKeyDown={(e)=> e.code==="Enter" && handleSearch(searchInputText)}
 
     />
     <div
       className="flex items-center justify-center border-l cursor-pointer px-4 bg-gray-200  rounded-r-lg"
-      onClick={() =>props.handleSearch(searchInputText)}
+      onClick={() =>handleSearch(searchInputText)}
 
     >
       <IoSearch className="text-gray-600 dark:text-white" />

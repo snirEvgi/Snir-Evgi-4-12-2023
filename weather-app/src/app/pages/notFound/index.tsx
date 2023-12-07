@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import notFoundImage from './not-found-image.png';
 
 export default function NotFound() {
   const [isSupportOn, setIsSupportOn] = useState<boolean>(false);

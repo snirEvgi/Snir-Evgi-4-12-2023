@@ -11,9 +11,9 @@ interface DataVisualHomeProps {
   forecasts: Array<any>;
 }
 
-const DataVisualHome = (props: DataVisualHomeProps) => {
+const DataVisualHome = ({forecasts}: DataVisualHomeProps) => {
     const [fiveDayForecast, setFiveDayForecast] = useState(
-        (props.forecasts as any)?.DailyForecasts,
+        (forecasts as any)?.DailyForecasts,
       )
 
      

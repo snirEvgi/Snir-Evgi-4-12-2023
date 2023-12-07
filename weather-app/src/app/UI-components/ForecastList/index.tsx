@@ -9,13 +9,13 @@ interface ForecastListProps {
   forecasts: Array<any>
 }
 
-const ForecastList = (props: ForecastListProps) => {
+const ForecastList = ({header,forecasts}:ForecastListProps) => {
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
   const [maxTemp, setMaxTemp] = useState<number>(0)
   const [minTemp, setMinTemp] = useState<number>(0)
 
   const [fiveDayForecast, setFiveDayForecast] = useState(
-    (props.forecasts as any)?.DailyForecasts,
+    (forecasts as any)?.DailyForecasts,
   )
   const theme = localStorage.getItem("theme")
 
@@ -42,7 +42,7 @@ const ForecastList = (props: ForecastListProps) => {
     <div className="p-2   min-w-[360px] duration-300 ease-in  transition-colors  ">
       
 
-    <h2 className="text-2xl mt-2 font-semibold mb-4">{props.header?props.header:"Daily Forecasts"}</h2>
+    <h2 className="text-2xl mt-2 font-semibold mb-4">{header?header:"Daily Forecasts"}</h2>
     <div className="flex gap-6  overflow-x-auto py-2">
       {fiveDayForecast.map((forecast: any, index: number) => (
         <div

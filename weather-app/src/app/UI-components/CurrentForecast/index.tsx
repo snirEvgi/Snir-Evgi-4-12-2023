@@ -54,7 +54,6 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
       // remove of the liked place 
       return Swal.fire({
         title: `Are you sure you want to remove ${header}?`,
-        // text: "",
         icon: "warning",
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
@@ -100,10 +99,14 @@ const CurrentForecast = ({ currentForecast, header,isLoading }: CurrentForecastP
             <div className="flex items-center space-x-2">
           
               <button
-                className={`text-2xl  hover:bg-gray-500 p-3 rounded-full  text-red-500 font-bold hover:text-slate-50`}
+                className={classNames({
+                  "text-2xl   p-3 rounded-full  text-red-500 font-bold transition-colors duration-300 ease-in ":true,
+                  "hover:bg-gray-500  hover:text-slate-50": theme ==="light",
+                  "hover:bg-white  hover:text-gray-500": theme ==="dark"
+                })}
                 onClick={()=>handleToggleLike(currentForecast)}
               >
-           {!isShown   ?  <FaHeart className={`cursor-pointer opacity-100 `} /> : <IoHeartDislike className={`cursor-pointer `} />}
+           {!isShown   ?  <FaHeart className={`cursor-pointer  `} /> : <IoHeartDislike className={`cursor-pointer `} />}
               </button>
             </div>
           </div>

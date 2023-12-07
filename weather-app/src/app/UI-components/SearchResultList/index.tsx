@@ -1,13 +1,20 @@
 import React, { useRef } from 'react';
 import classNames from 'classnames';
 import SearchResultItem from '../SearchResultItem';
-
+interface SearchResultsListProps {
+    autoCompleteResults: Array<any> | []
+    theme: string
+    handleSelectCountry: any
+  }
 const SearchResultsList = ({ autoCompleteResults, theme, handleSelectCountry }:any) => {
    
 
   return (
     <div 
-    className="max-h-[20rem]  w-full ml-[7px] md:ml-2 lg:ml-1 min-w-[345px] overflow-auto">
+    className={classNames({
+        'max-h-[20rem] w-full ml-[7px] md:ml-2 lg:ml-1 min-w-[345px] overflow-auto transition-max-height duration-300 ease-in-out': true,
+        
+      })}>
       <ul
         className={classNames({
           'divide-y rounded-xl': true,
