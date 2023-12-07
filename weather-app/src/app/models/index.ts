@@ -4,6 +4,7 @@
 export interface CurrentPlaceForecast {
     EpochTime: number;
     LocalizedName?:string;
+    CurrentKey?:string;
     HasPrecipitation: boolean;
     IsDayTime: boolean;
     Link: string;

@@ -34,9 +34,11 @@ const HomePage = () => {
   const divRef = useRef<null | any>(null)
 
   const [currentCountryName, setCountryName] = useState<string>("")
+  const [currentCountryKey, setCountryKey] = useState<string>("")
   const currentFavorite = JSON.parse(
-    localStorage.getItem("currentFavoriteVacation") as any,
+    localStorage.getItem("currentFavoriteLocation") as any,
   )
+  const currentLocation = JSON.parse(localStorage.getItem("currentFavoriteLocation")as any)
 
   const dispatch = useAppDispatch()
 
@@ -61,7 +63,7 @@ const HomePage = () => {
       const telAvivData = await fetchTelAvivData()
       setFiveDayForecast(telAvivData.fiveDayTlvForecast)
       setCurrentForecast(telAvivData.currentTlvForecast)
-
+      setCountryKey(telAvivData.key)
       setIsFetched(true)
       setIsLoading(true)
     } catch (error) {
@@ -75,7 +77,6 @@ const HomePage = () => {
     try {
       setCurrentForecast(currentFavorite)
       setCountryName(currentFavorite[0].LocalizedName)
-
 
       const response = await dispatch(
         fetchFiveDayForecast(currentFavorite[1] as string),
@@ -105,7 +106,6 @@ const HomePage = () => {
       setFiveDayForecast(response?.payload?.fiveDayGeoForecast)
       setCurrentForecast(response?.payload?.currentGeoForecast)
       setCountryName(response?.payload?.geoLocation.LocalizedName)
-      
     } catch (error) {
       setIsFetched(false)
       setIsLoading(false)
@@ -134,12 +134,18 @@ const HomePage = () => {
       successHandler,
       errorHandler,
     )
+ 
+  }, [])
+  useEffect(() => {
+  
+    localStorage.removeItem("currentFavoriteLocation")
   }, [])
 
   const handleSelectCountry = async (place: any) => {
     try {
       setCountryName(place.LocalizedName)
       const response = await dispatch(fetchFiveDayForecast(place?.Key))
+      setCountryKey(place?.key)
       const response2 = await dispatch(fetchCurrentForecast(place?.Key))
       setIsLoading(true)
     } catch (error) {
@@ -163,8 +169,7 @@ const HomePage = () => {
 
       if (searchAutoComplete.fulfilled.match(response)) {
         setIsLoading(false)
-      setIsSearchResult(true)
-
+        setIsSearchResult(true)
       }
       if (searchAutoComplete.pending.match(response)) {
         setIsLoading(true)
@@ -221,8 +226,7 @@ const HomePage = () => {
             <div>
               <div
                 className={classNames({
-                  "flex  rounded-2xl   justify-center items-center p-4":
-                    true,
+                  "flex  rounded-2xl   justify-center items-center p-4": true,
                   "bg-gray-700": theme === "dark",
                   "bg-white": theme === "light",
                 })}
@@ -248,10 +252,10 @@ const HomePage = () => {
         {isFetched && (
           <div className="h-fit   col-span-1 ml-3">
             <CurrentForecast
-              isLoading={isLoading}
               header={
                 currentCountryName !== "" ? currentCountryName : "Tel Aviv"
               }
+              func={fetchTelAvivData}
               currentForecast={
                 currentLocationResults
                   ? currentLocationResults[0]

@@ -1,5 +1,5 @@
 import { Toast } from "primereact/toast"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { IoHeartDislike, IoSunnyOutline } from "react-icons/io5"
 import { FaRegMoon, FaTemperatureLow } from "react-icons/fa"
 import { TbTemperatureCelsius, TbTemperatureFahrenheit } from "react-icons/tb"
@@ -25,13 +25,12 @@ const FavoritePage = () => {
     JSON.parse(localStorage.getItem("likedPlaces") as string) || [],
   )
   const [isOnFahrenheit, setIsOnFahrenheit] = useState<boolean>(false)
-  const [isForecastOn, setIsForecastOn] = useState<boolean>(false)
-  const [currentFavoriteName, setCurrentFavoriteName] = useState<string>("")
-  const [currentFavoriteID, setCurrentFavoriteID] = useState<string>("")
-  const [favoriteFiveDayForecast, setFavoriteFiveDayForecast] = useState<Array<DailyForecast>>([])
   const toast = useRef<Toast | null>(null)
   const theme = localStorage.getItem("theme")
   const navigate = useNavigate()
+
+
+  
 
   const getNumberFromUrl = (url: string) => {
     // regex to check the link for the number
@@ -46,11 +45,8 @@ const FavoritePage = () => {
   const handleClickFavorite = async (place: CurrentPlaceForecast) => {
     const number = getNumberFromUrl(place?.MobileLink)
     const key = number?.toString()
-    setCurrentFavoriteID(key as string)
-    setCurrentFavoriteName(place?.LocalizedName as string)
-
     const data = [place, key]
-    localStorage.setItem("currentFavoriteVacation", JSON.stringify(data))
+    localStorage.setItem("currentFavoriteLocation", JSON.stringify(data))
     navigate("/")
   }
   const handleRemoveLike = (place: CurrentPlaceForecast) => {
@@ -182,27 +178,19 @@ const FavoritePage = () => {
               </div>
               <br />
               <div className="text-sm">
-          <span className="font-semibold">Country ID:</span> {currentFavoriteID}
         </div>
               <br />
               <span
                 onClick={() => handleClickFavorite(place)}
                 className="text-blue-500 hover:text-blue-700 "
               >
-                View More
+               Set View To Homepage
               </span>
             </div>
           </div>
         ))}
       </div>
-      <div className="mt-10 ">
-        {isForecastOn && favoriteFiveDayForecast && (
-          <ForecastList
-            header={`${currentFavoriteName} Daily Forecasts`}
-            forecasts={favoriteFiveDayForecast}
-          />
-        )}
-      </div>
+      
     </div>
   )
 }
