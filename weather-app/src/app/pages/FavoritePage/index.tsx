@@ -188,7 +188,7 @@ const FavoritePage = () => {
               <br />
               <span
                 onClick={() => handleClickFavorite(place)}
-                className="text-blue-500 hover:text-blue-700 "
+                className="text-blue-500 cursor-pointer hover:text-blue-700 "
               >
                Set View To Homepage
               </span>
