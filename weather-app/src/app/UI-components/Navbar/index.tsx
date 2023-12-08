@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { IoIosCloudy } from "react-icons/io"
 import classNames from "classnames"
-import ThemeSwitcher from "../themeswitcher"
+import ThemeSwitcher from "../Themeswitcher"
 const NavBar = () => {
   const navigate = useNavigate()
   const links = [

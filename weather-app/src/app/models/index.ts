@@ -27,7 +27,22 @@ export interface CurrentPlaceForecast {
     WeatherText: string;
   }
 
+export interface SearchAutoCompleteData{
+  Version: number;
+  Key: string;
+  Type: string;
+  Rank: number;
+  LocalizedName: string;
+  Country: {
+    ID: string;
+    LocalizedName: string;
+  };
+  AdministrativeArea: {
+    ID: string;
+    LocalizedName: string;
+  };
 
+}
   export  interface DailyForecast {
     Date: string;
     LocalizedName?:string;
@@ -59,8 +74,11 @@ export interface CurrentPlaceForecast {
       };
     };
   }
+
+
+  
   export interface IAutoCompleteResult {
-    autoCompleteResults: any[] | null
+    autoCompleteResults: Array<SearchAutoCompleteData> | null
     loading: boolean
     error: string | undefined
   }

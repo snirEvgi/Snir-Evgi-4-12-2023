@@ -78,7 +78,7 @@ const FavoritePage = () => {
   return (
     <div
       className={classnames({
-        "max-w-screen min-h-screen duration-300 ease-in  transition-colors bg-none mx-auto p-4":
+        "max-w-screen min-h-screen duration-300 ease-in transition-colors bg-none mx-auto p-4":
           true,
         "text-white": theme === "dark",
       })}
