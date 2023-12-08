@@ -57,6 +57,8 @@ const HomePage = () => {
   )
   const theme = localStorage.getItem("theme") || "light"
 
+  // handlers
+
   const fetchTlvDataHandler = async () => {
     try {
       setIsLoading(true)
@@ -128,17 +130,7 @@ const HomePage = () => {
     }
   }
 
-  useEffect(() => {
-    const geoLocation = navigator.geolocation.getCurrentPosition(
-      successHandler,
-      errorHandler,
-    )
  
-  }, [])
-  useEffect(() => {
-  
-    localStorage.removeItem("currentFavoriteLocation")
-  }, [])
 
   const handleSelectCountry = async (place: any) => {
     try {
@@ -200,10 +192,26 @@ const HomePage = () => {
       setIsLoading(false)
     }
   }
+
+// use effects
+
+useEffect(() => {
+  const geoLocation = navigator.geolocation.getCurrentPosition(
+    successHandler,
+    errorHandler,
+  )
+
+}, [])
+useEffect(() => {
+
+  localStorage.removeItem("currentFavoriteLocation")
+}, [])
+
+
   return (
     <div
       className={classnames({
-        "container -mx-6 md:mx-auto lg:mx-auto xl:mx-auto  max-h-screen p-4":
+        "container -mx-6 md:mx-auto h-full lg:mx-auto xl:mx-auto  max-h-screen p-4":
           true,
       })}
     >
@@ -283,12 +291,17 @@ const HomePage = () => {
           </div>
         )}
       </div>
-       <footer className={classNames({"p-10 mt-5 md:ml-0 lg:ml-0 xl:ml-0 ml-9 ":true,"bg-gray-800 opacity-95 text-white":theme ==="dark","bg-white opacity-70 text-black":theme ==="light"})}>
+      
+    <footer className={classNames({"p-10 mt-5 relative top-0  md:ml-0 lg:ml-0 xl:ml-0 ml-9 ":true,
+    " mt-[32rem]":!isFetched,
+    "bg-gray-800 opacity-95 text-white":theme ==="dark",
+    "bg-white opacity-70 text-black":theme ==="light"})}>
          <div className={"container mx-auto text-center"}>
             <p className="text-sm">&copy; {new Date().getFullYear()} Weather App</p>
          </div>
       </footer>
     </div>
+
   )
 }
 
