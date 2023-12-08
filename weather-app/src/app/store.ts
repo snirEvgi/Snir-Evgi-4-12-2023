@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
 import weatherSlice from "../app/pages/HomePage/weatherSlice"
-import { themeReducer } from "./UI-components/Themeswitcher/themeSlice"
+import { themeReducer } from "./UI-components/themeswitcher/themeSlice"
 
 
 export const store = configureStore({
