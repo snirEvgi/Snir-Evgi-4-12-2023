@@ -78,14 +78,14 @@ const FavoritePage = () => {
   return (
     <div
       className={classnames({
-        "max-w-screen min-h-screen duration-300 ease-in transition-colors bg-none mx-auto p-4":
+        "max-w-screen min-h-screen duration-300 mt-10 ease-in transition-colors bg-none mx-auto p-4":
           true,
         "text-white": theme === "dark",
       })}
     >
       <Toast ref={toast} />
 
-      <h2 className="text-2xl font-semibold text-center mb-6">
+      <h2 className="text-2xl  font-semibold text-center mb-20">
         Favorite Forecasts
       </h2>
       {
@@ -197,14 +197,7 @@ const FavoritePage = () => {
         ))}
  
       </div>
-      <footer className={classNames("p-10 mt-auto md:ml-0 lg:ml-0 xl:ml-0 ml-9", {
-  "bg-gray-800 opacity-95 text-white": theme === "dark",
-  "bg-white opacity-70 text-black": theme === "light"
-})}>
-  <div className="container mx-auto text-center">
-    <p className="text-sm">&copy; {new Date().getFullYear()} Weather App</p>
-  </div>
-</footer>
+      
     </div>
   )
 }
