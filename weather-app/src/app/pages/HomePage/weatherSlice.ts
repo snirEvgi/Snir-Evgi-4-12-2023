@@ -136,7 +136,7 @@ const weatherSlice = createSlice({
         (state, action) => {
           state.loading = false
           state.geoForecast = action.payload
-        },
+        }, 
       )
       .addCase(
         fetchCurrentForecastWithGeoLocation.rejected,
