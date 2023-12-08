@@ -88,7 +88,14 @@ const FavoritePage = () => {
       <h2 className="text-2xl font-semibold text-center mb-6">
         Favorite Forecasts
       </h2>
-
+      {
+  !favoriteList.length && (
+    <div className="flex justify-center items-center p-10">
+     
+        <p className="text-lg font-semibold">No favorites added yet.</p>
+      </div>
+  )
+}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {favoriteList.map((place: CurrentPlaceForecast, index: number) => (
           <div
@@ -188,6 +195,7 @@ const FavoritePage = () => {
             </div>
           </div>
         ))}
+ 
       </div>
       
     </div>
