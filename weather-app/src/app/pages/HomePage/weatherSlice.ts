@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
 import { IAutoCompleteResult, IForecastResult } from "../../models"
 
-export const apiKey = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"
-export const apiKey1 = "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"
+export const apiKey = "9qrvieMrQl23ieBw1AAmjW9vLTxeunvF"
+export const apiKey1 = "ICfOrVGI3ofdnGODMlLrRMwyPbISOCdO"
 export const apiKey2 = "XqAwKjl5vHX6rEFkdbfLq7zj9yHz7o4R"
 export const apiKey3 = "AgSwRsJttx2l9xFP9UVZ1M9l3VSkfR5I"
 

@@ -1,6 +1,7 @@
 import classNames from "classnames"
-import React, { useState, ChangeEvent, KeyboardEvent } from "react"
+import React, { useState, ChangeEvent, KeyboardEvent, useEffect } from "react"
 import { IoSearch } from "react-icons/io5"
+import { useDebounce } from "../../useDebunce"
 
 interface SearchInputProps {
   referral: any
@@ -10,13 +11,15 @@ interface SearchInputProps {
 const SearchInput = ({ referral, handleSearch }: SearchInputProps) => {
   const theme = localStorage.getItem("theme") || "light"
   const [searchInputText, setSearchInputText] = useState<string>("")
-
+  const debounce = useDebounce(searchInputText)
   const clearSearchInput = () => {
     setSearchInputText("")
   }
 
+
   const handleChange = (e: any) => {
     setSearchInputText(e.target.value)
+
   }
 
   const handleKeyDown = (e: any) => {
@@ -30,7 +33,12 @@ const SearchInput = ({ referral, handleSearch }: SearchInputProps) => {
     handleSearch(searchInputText)
     clearSearchInput()
   }
+useEffect(() => {
 
+handleSearch(debounce)
+
+  
+},[debounce])
   return (
     <div className="flex min-w-[315px] w-full">
       <input
@@ -46,6 +54,7 @@ const SearchInput = ({ referral, handleSearch }: SearchInputProps) => {
         })}
         placeholder="Search Any Place..."
         onKeyDown={handleKeyDown}
+        
       />
       <div
         className="flex items-center justify-center border-l cursor-pointer px-4 bg-gray-200 rounded-r-lg"

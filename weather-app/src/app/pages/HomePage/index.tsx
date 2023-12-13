@@ -245,6 +245,7 @@ useEffect(() => {
 
               {isSearchResult && (
                 <div ref={divRef} className="rounded-2xl mr-2.5 z-10">
+                  
                   <SearchResultsList
                     autoCompleteResults={autoCompleteResults}
                     handleSelectCountry={handleSelectCountry}
@@ -257,6 +258,7 @@ useEffect(() => {
 
         {isFetched && (
           <div className="h-fit   col-span-1 ml-3">
+
             <CurrentForecast
               header={
                 currentCountryName !== "" ? currentCountryName : "Tel Aviv"
